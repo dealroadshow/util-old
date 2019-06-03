@@ -42,7 +42,7 @@ class StrictTypedCollectionBuilderTest extends TestCase {
      * @throws TypeError
      * @throws \Exception
      */
-    public function it_should_be_able_to_add_elements($fixture) {
+    public function it_should_be_able_to_add_elements($fixture): void {
 
         foreach ($this->collection as $item) {
             $this->builder->add($item);
@@ -69,8 +69,7 @@ class StrictTypedCollectionBuilderTest extends TestCase {
      *
      * @param $fixture
      */
-    public function it_should_be_able_to_add_all_elements_from_same_type_collection($fixture) {
-
+    public function it_should_be_able_to_add_all_elements_from_same_type_collection($fixture): void {
         $this->builder->addAll($this->collection);
         $createdCollection = $this->builder->build();
 
@@ -82,7 +81,6 @@ class StrictTypedCollectionBuilderTest extends TestCase {
      * @test
      */
     public function it_should_throw_exception_when_add_item_of_type_diff_from_declared() {
-
         $this->expectException(TypeError::class);
 
         $this->builder->add(new DateTime());
@@ -92,10 +90,8 @@ class StrictTypedCollectionBuilderTest extends TestCase {
      * @covers ::addAll
      * @test
      */
-    public function it_should_throw_exception_when_add_typed_collection_of_type_diff_from_declared() {
-
+    public function it_should_throw_exception_when_add_typed_collection_of_type_diff_from_declared(): void {
         $this->expectException(TypeError::class);
-
         $collection = DateIntervalCollection::fromArray([new DateInterval('P1D'), new DateInterval('P1Y')]);
 
         $this->builder->addAll($collection);

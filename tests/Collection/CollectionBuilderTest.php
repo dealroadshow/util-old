@@ -66,7 +66,6 @@ class CollectionBuilderTest extends TestCase {
      * @throws \Exception
      */
     public function it_should_be_able_to_add_diff_type_elements(array $fixture, string $class): void {
-
         /** @var ArrayCollection $sourceCollection */
         $sourceCollection = $class::fromArray($fixture);
         /** @var CollectionBuilder $builder */
@@ -75,7 +74,6 @@ class CollectionBuilderTest extends TestCase {
         foreach ($sourceCollection as $item) {
             $builder->add($item);
         }
-
         $builder->add(new \DateInterval('P1M'));
 
         /** @var ArrayCollection $createdCollection */
@@ -98,7 +96,6 @@ class CollectionBuilderTest extends TestCase {
      * @throws \Exception
      */
     public function it_should_be_able_to_add_collection_of_elements(array $fixture, string $class): void {
-
         /** @var CollectionBuilder $builder */
         $builder = $class::builder();
 

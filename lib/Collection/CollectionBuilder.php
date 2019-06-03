@@ -49,7 +49,6 @@ class CollectionBuilder {
      * @return CollectionBuilder
      */
     public function addAll(Collection $collection): CollectionBuilder {
-
         foreach ($collection as $item) {
             $this->add($item);
         }
