@@ -2,7 +2,6 @@
 
 namespace Granule\Tests\Util\Collection;
 
-use Granule\Tests\Util\Collection\_fixtures\DateCollection;
 use Granule\Util\Collection\{ArrayCollection, CollectionBuilder};
 use PHPUnit\Framework\TestCase;
 
@@ -13,18 +12,15 @@ use PHPUnit\Framework\TestCase;
  */
 class CollectionBuilderTest extends TestCase {
 
-    const COLLECTION_CLASS = DateCollection::class;
-    /** @var CollectionBuilder */
-    private $builder;
-    /** @var ArrayCollection */
-    private $collection;
-
     public function provider(): array {
         return [
             [
-                'first' => new \DateTimeImmutable('14-01-2014'),
-                'second' => new \DateTimeImmutable('12-11-2011'),
-                'third' => new \DateTimeImmutable('17-12-2017')
+                [
+                    'first' => new \DateTime('14-01-2014'),
+                    'second' => new \DateTime('12-11-2011'),
+                    'third' => new \DateTime('17-12-2017')
+                ],
+                ArrayCollection::class
             ]
         ];
     }
@@ -35,52 +31,88 @@ class CollectionBuilderTest extends TestCase {
      * @dataProvider provider
      *
      * @param $fixture
+     * @param $class
      *
      * @throws \TypeError
+     * @throws \Exception
      */
-    public function it_should_be_able_to_add_elements($fixture) {
-
-        foreach ($this->collection as $item) {
-            $this->builder->add($item);
+    public function it_should_be_able_to_add_elements(array $fixture, string $class): void {
+        /** @var CollectionBuilder $builder */
+        $builder = $class::builder();
+        foreach ($fixture as $item) {
+            $builder->add($item);
         }
+        /** @var ArrayCollection $firstCollection */
+        $firstCollection = $builder->build();
+        $this->assertEquals(3, $firstCollection->count());
 
-        $this->assertEquals($this->builder->build(), $this->collection);
-    }
-
-    /**
-     * @covers ::addBulk
-     * @test
-     * @dataProvider provider
-     *
-     * @param $fixture
-     */
-    public function it_should_be_able_to_bulk_add_elements_from_same_type_collection($fixture) {
-
-        $this->builder->addBulk($this->collection);
-
-        $this->assertEquals($this->builder->build(), $this->collection);
+        $newElement = new \DateTime('10-12-2017');
+        $builder->add($newElement);
+        /** @var ArrayCollection $secondCollection */
+        $secondCollection = $builder->build();
+        $this->assertEquals(4, $secondCollection->count());
+        $this->assertTrue($secondCollection->contains($newElement));
     }
 
     /**
      * @covers ::add
      * @test
+     * @dataProvider provider
+     *
+     * @param $fixture
+     * @paran $class
+     *
+     * @throws \TypeError
+     * @throws \Exception
      */
-    public function it_should_throw_exception_when_add_item_of_type_diff_from_declared() {
+    public function it_should_be_able_to_add_diff_type_elements(array $fixture, string $class): void {
 
-        $this->expectException(\TypeError::class);
+        /** @var ArrayCollection $sourceCollection */
+        $sourceCollection = $class::fromArray($fixture);
+        /** @var CollectionBuilder $builder */
+        $builder = $class::builder();
 
-        $this->builder->add(new \DateTime());
+        foreach ($sourceCollection as $item) {
+            $builder->add($item);
+        }
+
+        $builder->add(new \DateInterval('P1M'));
+
+        /** @var ArrayCollection $createdCollection */
+        $createdCollection = $builder->build();
+        $firstElement = $createdCollection->get(0);
+        $lastElement = $createdCollection->get($createdCollection->count() - 1);
+
+        $this->assertEquals($createdCollection->count(), $sourceCollection->count() + 1);
+        $this->assertNotEquals(get_class($firstElement), get_class($lastElement));
     }
 
-
     /**
+     * @covers ::addAll
+     * @test
      * @dataProvider provider
+     *
+     * @param $fixture
+     * @param $class
+     *
+     * @throws \Exception
      */
-    protected function setUp() {
-        parent::setUp();
-        $fixture = $this->getProvidedData();
+    public function it_should_be_able_to_add_collection_of_elements(array $fixture, string $class): void {
 
-        $this->builder = (self::COLLECTION_CLASS)::builder();
-        $this->collection = (self::COLLECTION_CLASS)::fromArray($fixture);
+        /** @var CollectionBuilder $builder */
+        $builder = $class::builder();
+
+        $newElements = ArrayCollection::fromArray([
+            new \DateTimeImmutable('10-12-2017'),
+            new \DateTimeImmutable('11-12-2017')
+        ]);
+
+        $builder->addAll($newElements);
+        /** @var ArrayCollection $createdCollection */
+        $createdCollection = $builder->build();
+
+        $this->assertEquals(2, $createdCollection->count());
+        $this->assertTrue($createdCollection->contains($newElements[0]));
+        $this->assertTrue($createdCollection->contains($newElements[1]));
     }
 }
