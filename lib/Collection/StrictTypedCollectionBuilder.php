@@ -40,7 +40,7 @@ class StrictTypedCollectionBuilder extends CollectionBuilder implements StrictTy
         $type = is_object($element) ? get_class($element) : gettype($element);
         if (!($this->valueType == $type)) {
             throw new \TypeError(
-                sprintf('Expected type %s provided: ', $this->valueType, $type)
+                sprintf('Expected type %s provided: %s', $this->valueType, $type)
             );
         }
 
