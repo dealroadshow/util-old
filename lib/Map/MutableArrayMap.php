@@ -25,7 +25,9 @@
 
 namespace Granule\Util\Map;
 
+use Granule\Util\Map;
 use Granule\Util\MutableMap;
+use Granule\Util\TypeHelper;
 
 class MutableArrayMap extends ArrayMap implements MutableMap {
     /** {@inheritdoc} */
