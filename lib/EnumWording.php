@@ -2,18 +2,24 @@
 
 namespace Granule\Util;
 
-abstract class EnumWording extends Enum {
+use Granule\Util\Exception\InvalidEnumWordingException;
+
+abstract class EnumWording extends Enum implements Hashable {
 
     private $wording;
 
-    public static function fromWording(string $wording) {
+    public static function isExistingByWording(string $wording, $strict = false): bool {
+        return in_array($wording, self::getValues(), $strict);
+    }
+
+    public static function fromWording(string $wording): Enum {
         foreach (self::getValues() as $key => $value) {
             if ($value === $wording) {
                 return self::fromValue($key);
             }
         }
 
-        throw new \InvalidArgumentException(sprintf('Wrong wording: %s', $wording));
+        throw new InvalidEnumWordingException(sprintf('Wrong wording: %s', $wording));
     }
 
     public function getWording(): string {
@@ -26,5 +32,9 @@ abstract class EnumWording extends Enum {
 
     public function __toString(): string {
         return $this->getWording();
+    }
+
+    public function hash(): string {
+        return md5((string)$this);
     }
 }

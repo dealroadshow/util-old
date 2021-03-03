@@ -25,12 +25,9 @@
 
 namespace Granule\Util;
 
+use Granule\Util\Exception\InvalidEnumValueException;
+
 /**
- *  Simple enumeration implementation
- *
- * Usage:
- * <code>
- *  /**
  *   * Class Month
  *   * @ method static Month January()
  *   * @ method static Month February()
@@ -77,7 +74,9 @@ abstract class Enum {
     public static final function __callStatic(string $name, $_): Enum {
         $arguments = self::getConstantArguments($name);
         if (!$arguments) {
-            throw new \BadMethodCallException(sprintf('Type %s doesn\'t contain value %s', static::class, $name));
+            throw new InvalidEnumValueException(
+                sprintf('Type %s doesn\'t contain value %s', static::class, $name)
+            );
         }
         if (!array_key_exists(static::class, self::$pool)) {
             self::$pool[static::class] = [];
