@@ -34,9 +34,9 @@ class HashMapBuilder {
     protected $values = [];
     /** @var string */
     protected $mapClass;
-    /** @var ?string */
+    /** @var string|null */
     protected $mappingType;
-    /** @var ?string */
+    /** @var string|null */
     protected $keyType;
     /** @var callable */
     protected $hashFunc;
@@ -65,6 +65,14 @@ class HashMapBuilder {
 
         $this->keys[$hash] = $key;
         $this->values[$hash] = $value;
+
+        return $this;
+    }
+
+    public function addAll(HashMap $hashMap): HashMapBuilder {
+        foreach ($hashMap as $key => $value) {
+            $this->add($key, $value);
+        }
 
         return $this;
     }

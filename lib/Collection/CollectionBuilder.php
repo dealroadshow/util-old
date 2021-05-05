@@ -43,11 +43,6 @@ class CollectionBuilder {
         return $this;
     }
 
-    /**
-     * @param Collection $collection
-     *
-     * @return CollectionBuilder
-     */
     public function addAll(Collection $collection): CollectionBuilder {
         foreach ($collection as $item) {
             $this->add($item);

@@ -25,16 +25,17 @@
 
 namespace Granule\Util\Map;
 
-use Granule\Util\{Map, TypeHelper};
+use Granule\Util\Map;
+use Granule\Util\TypeHelper;
 
 class MapBuilder {
     /** @var array */
     protected $elements = [];
     /** @var string */
     protected $mapClass;
-    /** @var ?string */
+    /** @var string|null */
     protected $mappingType;
-    /** @var ?string */
+    /** @var string|null */
     protected $keyType;
 
     public function __construct(string $mapClass, ?string $mappingType, ?string $keyType) {
@@ -53,6 +54,14 @@ class MapBuilder {
         }
 
         $this->elements[$key] = $value;
+
+        return $this;
+    }
+
+    public function addAll(Map $map): MapBuilder {
+        foreach ($map as $key => $value) {
+            $this->add($key, $value);
+        }
 
         return $this;
     }
