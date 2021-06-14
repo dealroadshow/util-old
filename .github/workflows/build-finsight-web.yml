@@ -6,11 +6,8 @@ env:
   DEFAULT_BRANCH: master
   MODULE_PATH: .
 jobs:
-  finsight-web-php-check-code-quality:
+  check-code-quality:
     runs-on: ubuntu-18.04
-    env:
-      JOB_NAME: dealroadshow-util-php-check-code-quality
-      SUBMODULE_NAME: php-check-code-quality
     steps:
       - uses: actions/checkout@v2
       - name: Setup PHP
