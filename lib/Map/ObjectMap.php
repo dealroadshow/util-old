@@ -56,9 +56,6 @@ class ObjectMap implements Map {
         return new static(new SplObjectStorage());
     }
 
-    /**
-     * @throws \ReflectionException
-     */
     public static function builder(): MapBuilder {
         $valueType = null;
         $reflection = new \ReflectionClass(static::class);

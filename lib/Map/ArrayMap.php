@@ -50,9 +50,6 @@ class ArrayMap implements Map {
         return $builder->build();
     }
 
-    /**
-     * @throws \ReflectionException
-     */
     public static function builder(): MapBuilder {
         $keyType = $valueType = null;
         if (is_a(static::class, StrictTypedKey::class, true)

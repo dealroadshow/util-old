@@ -41,9 +41,6 @@ abstract class HashMap implements Map {
         $this->values = $builder->getValues();
     }
 
-    /**
-     * @throws \ReflectionException
-     */
     public static function builder(): HashMapBuilder {
         $keyType = $valueType = null;
         $reflection = new \ReflectionClass(static::class);
