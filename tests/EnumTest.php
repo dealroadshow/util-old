@@ -77,6 +77,7 @@ class EnumTest extends TestCase {
      * @covers ::__clone
      */
     public function should_not_allow_cloning() {
+        $this->expectException(\Error::class);
         clone Month::January();
     }
 
