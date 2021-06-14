@@ -25,23 +25,25 @@
 
 namespace Granule\Tests\Util\Collection;
 
+use DateTimeImmutable;
 use Granule\Tests\Util\Collection\_fixtures\DateCollection;
 use Granule\Util\Collection;
 use PHPUnit\Framework\TestCase;
+use Granule\Util\Collection\ArrayCollection;
 
 /**
  * @group unit
  * @group collection
- * @coversDefaultClass Granule\Util\Collection\ArrayCollection
+ * @coversDefaultClass ArrayCollection
  */
 class ArrayCollectionTest extends TestCase {
     public function provider(): array {
         return [
             [
                 [
-                    'first' => new \DateTimeImmutable('14-01-2014'),
-                    'second' => new \DateTimeImmutable('12-11-2011'),
-                    'third' => new \DateTimeImmutable('17-12-2017')
+                    'first' => new DateTimeImmutable('14-01-2014'),
+                    'second' => new DateTimeImmutable('12-11-2011'),
+                    'third' => new DateTimeImmutable('17-12-2017')
                 ],
                 DateCollection::class
             ]
@@ -54,14 +56,14 @@ class ArrayCollectionTest extends TestCase {
      * @dataProvider provider
      *
      * @param array $fixture
-     * @param string $class
+     * @param string|DateCollection $class
      */
     public function it_should_contain_specific_element(array $fixture, string $class): void {
         /** @var Collection $collection */
-        $collection = Collection\ArrayCollection::fromArray($fixture);
+        $collection = ArrayCollection::fromArray($fixture);
 
         $this->assertTrue($collection->contains(end($fixture)));
-        $this->assertFalse($collection->contains(new \DateTimeImmutable('now')));
+        $this->assertFalse($collection->contains(new DateTimeImmutable('now')));
         $this->assertTrue($collection->contains(new \DateTime('17-12-2017')));
     }
 
@@ -69,13 +71,13 @@ class ArrayCollectionTest extends TestCase {
      * @covers ::contains
      * @test
      * @dataProvider provider
-     * @expectedException \TypeError
-     * @expectedExceptionMessage Expected type DateTimeImmutable provided: DateTime
      *
      * @param array $fixture
-     * @param string $class
+     * @param string|DateCollection $class
      */
     public function on_strict_mode_contains_method_should_throw_exception(array $fixture, string $class): void {
+        $this->expectExceptionMessage("Expected type DateTimeImmutable provided: DateTime");
+        $this->expectException(\TypeError::class);
         /** @var Collection $collection */
         $collection = $class::fromArray($fixture);
         $collection->contains(new \DateTime('17-12-2017'));
@@ -87,15 +89,15 @@ class ArrayCollectionTest extends TestCase {
      * @dataProvider provider
      *
      * @param array $fixture
-     * @param string $class
+     * @param string|DateCollection $class
      */
     public function it_should_contain_specific_collection_of_elements(array $fixture, string $class): void {
         /** @var Collection $collection */
-        $collection = Collection\ArrayCollection::fromArray($fixture);
+        $collection = ArrayCollection::fromArray($fixture);
         /** @var Collection $other */
         $other = $class::fromArray($fixture);
 
-        $fixture[] = new \DateTimeImmutable('07-07-2017');
+        $fixture[] = new DateTimeImmutable('07-07-2017');
         /** @var Collection $other2 */
         $other2 = $class::fromArray($fixture);
 
@@ -112,18 +114,18 @@ class ArrayCollectionTest extends TestCase {
      * @dataProvider provider
      *
      * @param array $fixture
-     * @param string $class
+     * @param string|DateCollection $class
      */
     public function it_should_be_able_to_check_equals(array $fixture, string $class): void {
         /** @var Collection $other */
-        $collection = Collection\ArrayCollection::fromArray($fixture);
+        $collection = ArrayCollection::fromArray($fixture);
         /** @var Collection $other */
         $other = $class::fromArray($fixture);
 
         $this->assertTrue($collection->equals($other));
         $this->assertTrue($other->equals($collection));
 
-        $fixture[] = new \DateTimeImmutable('07-07-2017');
+        $fixture[] = new DateTimeImmutable('07-07-2017');
         /** @var Collection $other2 */
         $other2 = $class::fromArray($fixture);
 
@@ -139,13 +141,13 @@ class ArrayCollectionTest extends TestCase {
      * @dataProvider provider
      *
      * @param array $fixture
-     * @param string $class
+     * @param string|DateCollection $class
      */
     public function it_should_be_able_to_check_emptiness(array $fixture, string $class): void {
         /** @var Collection $collection */
-        $collection = Collection\ArrayCollection::fromArray($fixture);
+        $collection = ArrayCollection::fromArray($fixture);
         /** @var Collection $collection */
-        $emptyCollection = Collection\ArrayCollection::fromArray([]);
+        $emptyCollection = ArrayCollection::fromArray([]);
 
         $this->assertFalse($collection->isEmpty());
         $this->assertTrue($emptyCollection->isEmpty());
@@ -157,19 +159,19 @@ class ArrayCollectionTest extends TestCase {
      * @dataProvider provider
      *
      * @param array $fixture
-     * @param string $class
+     * @param string|DateCollection $class
      */
     public function it_should_be_countable(array $fixture, string $class): void {
         /** @var Collection $collection */
-        $collection = Collection\ArrayCollection::fromArray($fixture);
+        $collection = ArrayCollection::fromArray($fixture);
 
-        $this->assertEquals(3, count($collection));
+        $this->assertCount(3, $collection);
         $this->assertEquals(3, $collection->count());
 
         /** @var Collection $collection */
         $collection = $class::fromArray($fixture);
 
-        $this->assertEquals(3, count($collection));
+        $this->assertCount(3, $collection);
         $this->assertEquals(3, $collection->count());
     }
 
@@ -179,7 +181,7 @@ class ArrayCollectionTest extends TestCase {
      * @dataProvider provider
      *
      * @param array $fixture
-     * @param string $class
+     * @param string|ArrayCollection $class
      */
     public function it_should_be_readable(array $fixture, string $class): void {
         /** @var Collection $collection */
@@ -193,13 +195,13 @@ class ArrayCollectionTest extends TestCase {
      * @covers ::get
      * @test
      * @dataProvider provider
-     * @expectedException \OutOfRangeException
-     * @expectedExceptionMessage Undefined element by index: 10
      *
      * @param array $fixture
-     * @param string $class
+     * @param string|ArrayCollection $class
      */
     public function it_should_throw_exception_when_try_to_read_nonexistent_element(array $fixture, string $class): void {
+        $this->expectExceptionMessage("Undefined element by index: 10");
+        $this->expectException(\OutOfRangeException::class);
         /** @var Collection $collection */
         $collection = $class::fromArray($fixture);
 
@@ -212,15 +214,15 @@ class ArrayCollectionTest extends TestCase {
      * @dataProvider provider
      *
      * @param array $fixture
-     * @param string $class
+     * @param string|ArrayCollection $class
      */
     public function it_should_be_able_to_get_element_index(array $fixture, string $class): void {
         /** @var Collection $collection */
         $collection = $class::fromArray($fixture);
         $values = array_values($fixture);
 
-        $this->assertTrue(null === $collection->indexOf(new \DateTimeImmutable('14-01-2014')));
-        $this->assertTrue(null === $collection->indexOf(new \DateTimeImmutable('12-11-2011')));
+        $this->assertTrue(null === $collection->indexOf(new DateTimeImmutable('14-01-2014')));
+        $this->assertTrue(null === $collection->indexOf(new DateTimeImmutable('12-11-2011')));
         $this->assertTrue(1 == $collection->indexOf($values[1]));
         $this->assertTrue(2 == $collection->indexOf($values[2]));
     }
@@ -231,7 +233,7 @@ class ArrayCollectionTest extends TestCase {
      * @dataProvider provider
      *
      * @param array $fixture
-     * @param string $class
+     * @param string|ArrayCollection $class
      */
     public function it_should_be_iterable(array $fixture, string $class): void {
         /** @var Collection $collection */
@@ -253,7 +255,7 @@ class ArrayCollectionTest extends TestCase {
      * @dataProvider provider
      *
      * @param array $fixture
-     * @param string $class
+     * @param string|ArrayCollection $class
      */
     public function it_should_be_array_accessible(array $fixture, string $class): void {
         /** @var Collection $collection */
@@ -274,7 +276,7 @@ class ArrayCollectionTest extends TestCase {
      * @dataProvider provider
      *
      * @param array $fixture
-     * @param string $class
+     * @param string|ArrayCollection $class
      */
     public function it_should_be_hashable(array $fixture, string $class): void {
         /** @var Collection $collection */

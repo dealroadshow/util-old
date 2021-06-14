@@ -42,7 +42,6 @@ class EnumTest extends TestCase {
      * @covers ::__construct
      */
     public function should_be_able_to_get_enum_instance() {
-        /** @var Planet $earth */
         $earth = Planet::EARTH();
 
         $this->assertInstanceOf(Enum::class, $earth,
@@ -75,10 +74,10 @@ class EnumTest extends TestCase {
 
     /**
      * @test
-     * @expectedException \Error
      * @covers ::__clone
      */
     public function should_not_allow_cloning() {
+        $this->expectException(\Error::class);
         clone Month::January();
     }
 

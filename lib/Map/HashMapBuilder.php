@@ -42,8 +42,10 @@ class HashMapBuilder {
     protected $hashFunc;
 
     public function __construct(
-        callable $hashFunc, string $mapClass,
-        ?string $mappingType, ?string $keyType
+        callable $hashFunc,
+        string   $mapClass,
+        ?string  $mappingType,
+        ?string  $keyType
     ) {
         $this->hashFunc = $hashFunc;
         $this->mapClass = $mapClass;
@@ -87,7 +89,9 @@ class HashMapBuilder {
 
     public function build(): HashMap {
         $class = $this->mapClass;
+        /** @var HashMap $map */
+        $map = new $class($this);
 
-        return new $class($this);
+        return $map;
     }
 }

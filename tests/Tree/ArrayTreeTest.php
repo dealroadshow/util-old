@@ -25,14 +25,15 @@
 
 namespace Granule\Tests\Util\Tree;
 
-use Granule\Util\Tree\{ArrayTree, MutableArrayTree};
+use Granule\Util\Tree\ArrayTree;
+use Granule\Util\Tree\MutableArrayTree;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group unit
  * @group tree
- * @coversDefaultClass Granule\Util\Tree\ArrayTree
- * @coversDefaultClass Granule\Util\Tree\MutableArrayTree
+ * @coversDefaultClass ArrayTree
+ * @coversDefaultClass MutableArrayTree
  */
 class ArrayTreeTest extends TestCase {
     /** @var array */
@@ -75,9 +76,9 @@ class ArrayTreeTest extends TestCase {
         $this->assertInstanceOf(ArrayTree::class, $tree['var 1']);
         $this->assertEquals('var 1.0.1', self::$data['var 1'][0][1]);
         $this->assertFalse(isset($tree['var 7']));
-        $this->assertFalse(array_key_exists('var 7', $tree));
+        $this->assertFalse($tree->offsetExists('var 7'));
         $this->assertFalse(isset($tree['var 1'][3][1]));
-        $this->assertFalse(array_key_exists('var 1.0.5', $tree));
+        $this->assertFalse($tree->offsetExists('var 1.0.5'));
     }
 
     /**
@@ -103,8 +104,8 @@ class ArrayTreeTest extends TestCase {
         foreach (self::$mutableTree as $key => $value) {
             $this->assertEquals("var {$index}", $key);
             $this->assertEquals(is_array(self::$data[$key])
-                    ? MutableArrayTree::fromArray(self::$data[$key], [$key])
-                    : self::$data[$key],
+                ? MutableArrayTree::fromArray(self::$data[$key], [$key])
+                : self::$data[$key],
                 $value, sprintf('Key is %s', $key));
 
             $index++;
@@ -166,40 +167,44 @@ class ArrayTreeTest extends TestCase {
 
     /**
      * @test
-     * @expectedException \OutOfBoundsException
-     * @expectedExceptionMessage Element "var 1.3" not found
+     * @covers ::offsetGet
      */
     public function it_should_throw_exception_when_xpath_not_found(): void {
+        $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage("Element \"var 1.3\" not found");
         self::$mutableTree['var 1.3'];
     }
 
     /**
      * @test
-     * @expectedException \OutOfBoundsException
-     * @expectedExceptionMessage Element "var 1.3" not found
+     * @covers ::offsetGet
      */
     public function it_should_throw_exception_when_key_not_found(): void {
+        $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage("Element \"var 1.3\" not found");
         self::$mutableTree['var 1'][3];
     }
 
     /**
      * @test
-     * @expectedException \OutOfBoundsException
-     * @expectedExceptionMessage Element "var 1.2.2" not found
+     * @covers ::offsetGet
      */
     public function it_should_throw_exception_when_index_key_not_found(): void {
-        foreach (self::$mutableTree['var 1'] as $index => $value) {
+        $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage("Element \"var 1.2.2\" not found");
+        foreach (self::$mutableTree['var 1'] as $value) {
             $value[2];
         }
     }
 
     /**
      * @test
-     * @expectedException \OutOfBoundsException
-     * @expectedExceptionMessage Element "var 1.0.5" not found
+     * @covers ::offsetGet
      */
     public function it_should_throw_exception_when_0_key_not_found(): void {
-        foreach (self::$immutableTree['var 1'] as $index => $value) {
+        $this->expectException(\OutOfBoundsException::class);
+        $this->expectExceptionMessage("Element \"var 1.0.5\" not found");
+        foreach (self::$immutableTree['var 1'] as $value) {
             $value[5];
         }
     }

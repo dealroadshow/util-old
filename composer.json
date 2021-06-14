@@ -1,5 +1,5 @@
 {
-    "name": "dealroadshow/granule-util",
+    "name": "dealroadshow/util",
     "description": "Granule Utilities fork",
     "keywords": ["enum", "tree", "array", "data", "collection", "map"],
     "type": "library",
@@ -8,7 +8,10 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9",
-        "vimeo/psalm": "^4.7.3"
+        "vimeo/psalm": "^4.7",
+        "orklah/psalm-insane-comparison": "1.0.3",
+        "marartner/psalm-no-empty": "^1.1",
+         "orklah/psalm-strict-equality": "^0.1.0"
     },
     "license": "MIT",
     "authors": [

@@ -41,19 +41,23 @@ abstract class HashMap implements Map {
         $this->values = $builder->getValues();
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public static function builder(): HashMapBuilder {
         $keyType = $valueType = null;
         $reflection = new \ReflectionClass(static::class);
-        /** @var StrictTypedValue|StrictTypedKey|HashMap $fake */
         $fake = $reflection->newInstanceWithoutConstructor();
 
         if (is_a(static::class, StrictTypedValue::class, true)) {
+            /** @var StrictTypedValue $fake */
             $valueType = $fake->getValueType();
         }
         if (is_a(static::class, StrictTypedKey::class, true)) {
+            /** @var StrictTypedKey $fake */
             $keyType = $fake->getKeyType();
         }
-
+        /** @var HashMap $fake */
         return new HashMapBuilder(function ($k) use ($fake) {
             return $fake->getKeyHash($k);
         }, static::class, $valueType, $keyType);

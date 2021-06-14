@@ -72,7 +72,9 @@ class MapBuilder {
 
     public function build(): Map {
         $class = $this->mapClass;
+        /** @var Map $map */
+        $map = new $class($this);
 
-        return new $class($this);
+        return $map;
     }
 }

@@ -35,17 +35,23 @@ use SplObjectStorage;
 class ObjectMap implements Map {
     /** @var SplObjectStorage */
     protected $elements;
-    /** @var int */
-    protected $index;
 
     protected function __construct(SplObjectStorage $elements) {
         $this->elements = $elements;
     }
 
+    /**
+     * @param \SplObjectStorage $elements
+     *
+     * @return static
+     */
     public static function fromStorage(SplObjectStorage $elements) {
         return new static($elements);
     }
 
+    /**
+     * @return static
+     */
     public static function createEmpty() {
         return new static(new SplObjectStorage());
     }
