@@ -1,5 +1,5 @@
 {
-    "name": "dealroadshow/util",
+    "name": "dealroadshow/granule-util",
     "description": "Granule Utilities fork",
     "keywords": ["enum", "tree", "array", "data", "collection", "map"],
     "type": "library",
