@@ -48,7 +48,7 @@ use Granule\Util\Exception\InvalidEnumValueException;
 abstract class Enum {
     /** @var string */
     private $value;
-    /** @var array Enum[] */
+    /** @var Enum[][]  */
     private static $pool = [];
 
     private final function __construct(string $value, array $arguments = null) {
@@ -68,10 +68,13 @@ abstract class Enum {
 
     public final function equalTo(Enum $another): bool {
         return static::class === get_class($another)
-                    && $this->getValue() === $another->getValue();
+               && $this->getValue() === $another->getValue();
     }
 
-    public static final function __callStatic(string $name, $_): Enum {
+    /**
+     * @return static
+     */
+    public static final function __callStatic(string $name, $_) {
         $arguments = self::getConstantArguments($name);
         if (!$arguments) {
             throw new InvalidEnumValueException(
@@ -82,19 +85,16 @@ abstract class Enum {
             self::$pool[static::class] = [];
         }
         if (!array_key_exists($name, self::$pool[static::class])) {
-            if (!array_key_exists($name, self::$pool[static::class])) {
-                self::$pool[static::class][$name] = new static($name, $arguments);
-            }
+            self::$pool[static::class][$name] = new static($name, $arguments);
         }
 
         return self::$pool[static::class][$name];
     }
 
     /**
-     * @param string $value
      * @return static
      */
-    public static function fromValue(string $value): Enum {
+    public static function fromValue(string $value) {
         return self::__callStatic($value, []);
     }
 
@@ -104,9 +104,9 @@ abstract class Enum {
 
     public static final function getValues(): array {
         $reflectionClass = new \ReflectionClass(static::class);
-//        if (!$reflectionClass->isFinal()) {
-//            throw new \ParseError(static::class);
-//        }
+        //        if (!$reflectionClass->isFinal()) {
+        //            throw new \ParseError(static::class);
+        //        }
 
         return $reflectionClass->getConstants();
     }

@@ -25,7 +25,47 @@
 
 namespace Granule\Util\Map;
 
+use Granule\Util\Map;
 use Granule\Util\MutableMap;
 
 class MutableObjectMap extends ObjectMap implements MutableMap {
+    public function clear(): void {
+        throw new \BadMethodCallException('Not Implemented method');
+    }
+
+    public function forEachApply(callable $callback): void {
+        throw new \BadMethodCallException('Not Implemented method');
+    }
+
+    public function put($key, $value) {
+        throw new \BadMethodCallException('Not Implemented method');
+    }
+
+    public function putAll(Map $map): void {
+        throw new \BadMethodCallException('Not Implemented method');
+    }
+
+    public function putIfAbsent($key, $value): void {
+        throw new \BadMethodCallException('Not Implemented method');
+    }
+
+    public function remove($key) {
+        throw new \BadMethodCallException('Not Implemented method');
+    }
+
+    public function removeIfEqual($key, $value): bool {
+        throw new \BadMethodCallException('Not Implemented method');
+    }
+
+    public function replace($key, $value) {
+        throw new \BadMethodCallException('Not Implemented method');
+    }
+
+    public function replaceIfEqual($key, $oldValue, $newValue): bool {
+        throw new \BadMethodCallException('Not Implemented method');
+    }
+
+    public function replaceAll(callable $replacer): void {
+        throw new \BadMethodCallException('Not Implemented method');
+    }
 }

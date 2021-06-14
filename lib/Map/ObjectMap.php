@@ -27,6 +27,8 @@ namespace Granule\Util\Map;
 
 use Granule\Util\Collection;
 use Granule\Util\Map;
+use Granule\Util\StrictTypedKey;
+use Granule\Util\StrictTypedValue;
 use Granule\Util\TypeHelper;
 use SplObjectStorage;
 
@@ -48,15 +50,19 @@ class ObjectMap implements Map {
         return new static(new SplObjectStorage());
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public static function builder(): MapBuilder {
         $valueType = null;
         $reflection = new \ReflectionClass(static::class);
-        /** @var StrictTypedValue|StrictTypedKey $fake */
         $fake = $reflection->newInstanceWithoutConstructor();
         if (is_a(static::class, StrictTypedValue::class, true)) {
+            /** @var StrictTypedValue $fake */
             $valueType = $fake->getValueType();
         }
 
+        /** @var StrictTypedKey $fake */
         return new ObjectMapBuilder(static::class, $valueType, $fake->getKeyType());
     }
 
@@ -171,7 +177,8 @@ class ObjectMap implements Map {
     /** {@inheritdoc} */
     public function values(string $collectionClass = null): Collection {
         return call_user_func([
-            $collectionClass ?: Collection\ArrayCollection::class, 'fromArray'
+            $collectionClass ?: Collection\ArrayCollection::class,
+            'fromArray'
         ], $this->toArray());
     }
 
