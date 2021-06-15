@@ -100,7 +100,7 @@ class StrictTypedCollectionBuilderTest extends TestCase {
     /**
      * @dataProvider provider
      */
-    protected function setUp() {
+    protected function setUp(): void {
         parent::setUp();
         $fixture = $this->getProvidedData();
         $this->collection = DateCollection::fromArray($fixture);

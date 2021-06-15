@@ -59,16 +59,14 @@ class ArrayTree implements Tree {
     }
 
     public function current() {
-        $element = &$this->data[$this->key()];
-
-        if (!is_array($element)) {
-            return $element;
+        if (!is_array($this->data[$this->key()])) {
+            return $this->data[$this->key()];
         }
 
         $path = $this->srcPath;
         array_push($path, $this->key());
 
-        return static::fromArrayByReference($element, $path);
+        return static::fromArrayByReference($this->data[$this->key()], $path);
     }
 
     public function rewind(): void {
@@ -100,7 +98,10 @@ class ArrayTree implements Tree {
     }
 
     public function toMutable(): MutableArrayTree {
-        return MutableArrayTree::fromArrayByReference($this->data, $this->srcPath);
+        /** @var MutableArrayTree $collection */
+        $collection = MutableArrayTree::fromArrayByReference($this->data, $this->srcPath);
+
+        return $collection;
     }
 
     public function toImmutable(): ArrayTree {
@@ -154,10 +155,10 @@ class ArrayTree implements Tree {
     }
 
     protected function find(
-        array &$data,
-        string $key,
-        array $path,
-        array $next,
+        array    &$data,
+        string   $key,
+        array    $path,
+        array    $next,
         \Closure $onFound = null,
         \Closure $onNotFound = null
     ) {
@@ -165,7 +166,9 @@ class ArrayTree implements Tree {
         if (array_key_exists($key, $data)) {
             if (is_array($data[$key])) {
                 if (!$next) {
-                    return $onFound($data[$key], $path, $data, $key); // the value
+                    if (isset($onFound)) {
+                        return $onFound($data[$key], $path, $data, $key);
+                    } // the value
                 } else {
                     return $this->find($data[$key], array_shift($next), $path, $next, $onFound,
                         $onNotFound); // next step
@@ -173,14 +176,22 @@ class ArrayTree implements Tree {
             } else {
                 if ($next) {
                     //If need to search deeper, but it's not array, then stop nested search recursion
-                    return $onNotFound(array_merge($path, $next));
+                    if (isset($onNotFound)) {
+                        return $onNotFound(array_merge($path, $next));
+                    }
                 }
             }
 
-            return $onFound($data[$key], $path, $data, $key); // also the value
+            if (isset($onFound)) {
+                return $onFound($data[$key], $path, $data, $key);
+            } // also the value
         }
 
-        return $onNotFound($path);
+        if (isset($onNotFound)) {
+            return $onNotFound($path);
+        }
+
+        return null;
     }
 
     protected function extractKey(string $key): array {

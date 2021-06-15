@@ -30,11 +30,11 @@ use Granule\Util\TypeHelper;
 
 class ObjectMapBuilder extends MapBuilder {
     /** @var \SplObjectStorage */
-    protected $elements;
+    protected $items;
 
     public function __construct($mapClass, $mappingType, $keyType) {
         parent::__construct($mapClass, $mappingType, $keyType);
-        $this->elements = new \SplObjectStorage;
+        $this->items = new \SplObjectStorage;
     }
 
     public function add($key, $value): MapBuilder {
@@ -46,7 +46,7 @@ class ObjectMapBuilder extends MapBuilder {
             TypeHelper::validate($value, $this->mappingType);
         }
 
-        $this->elements->attach($key, $value);
+        $this->items->attach($key, $value);
 
         return $this;
     }
@@ -56,6 +56,6 @@ class ObjectMapBuilder extends MapBuilder {
     }
 
     public function build(): Map {
-        return call_user_func([$this->mapClass, 'fromStorage'], $this->elements);
+        return call_user_func([$this->mapClass, 'fromStorage'], $this->items);
     }
 }

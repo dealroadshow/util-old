@@ -30,14 +30,11 @@ class CollectionBuilderTest extends TestCase {
      * @test
      * @dataProvider provider
      *
-     * @param $fixture
-     * @param $class
+     * @param array  $fixture
+     * @param string|ArrayCollection $class
      *
-     * @throws \TypeError
-     * @throws \Exception
      */
     public function it_should_be_able_to_add_elements(array $fixture, string $class): void {
-        /** @var CollectionBuilder $builder */
         $builder = $class::builder();
         foreach ($fixture as $item) {
             $builder->add($item);
@@ -59,16 +56,13 @@ class CollectionBuilderTest extends TestCase {
      * @test
      * @dataProvider provider
      *
-     * @param $fixture
+     * @param array  $fixture
+     * @param string|ArrayCollection $class
      * @paran $class
      *
-     * @throws \TypeError
-     * @throws \Exception
      */
     public function it_should_be_able_to_add_diff_type_elements(array $fixture, string $class): void {
-        /** @var ArrayCollection $sourceCollection */
         $sourceCollection = $class::fromArray($fixture);
-        /** @var CollectionBuilder $builder */
         $builder = $class::builder();
 
         foreach ($sourceCollection as $item) {
@@ -90,13 +84,11 @@ class CollectionBuilderTest extends TestCase {
      * @test
      * @dataProvider provider
      *
-     * @param $fixture
-     * @param $class
+     * @param array  $fixture
+     * @param string|ArrayCollection $class
      *
-     * @throws \Exception
      */
     public function it_should_be_able_to_add_collection_of_elements(array $fixture, string $class): void {
-        /** @var CollectionBuilder $builder */
         $builder = $class::builder();
 
         $newElements = ArrayCollection::fromArray([

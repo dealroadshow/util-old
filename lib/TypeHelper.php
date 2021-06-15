@@ -26,9 +26,11 @@
 namespace Granule\Util;
 
 final class TypeHelper {
+    /** @psalm-suppress UnusedConstructor */
     private function __construct() {
     }
 
+    /** @psalm-suppress UnusedConstructor */
     private function __clone() {
     }
 

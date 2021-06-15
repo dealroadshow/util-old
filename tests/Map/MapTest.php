@@ -25,15 +25,17 @@
 
 namespace Granule\Tests\Util\Map;
 
+use DateTimeImmutable;
 use Granule\Tests\Util\Map\_fixtures\DateToDateMap;
 use Granule\Tests\Util\Map\_fixtures\DateMap;
 use Granule\Util\Map;
 use Granule\Util\Map\MapBuilder;
+use Granule\Util\Map\ObjectMap;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @group unit
- * @coversDefaultClass \Granule\Util\ObjectMap
+ * @coversDefaultClass ObjectMap
  */
 class MapTest extends TestCase {
     public function iterableDataProvider(): array {
@@ -64,7 +66,7 @@ class MapTest extends TestCase {
      * @test
      * @dataProvider iterableDataProvider
      *
-     * @param Map $map
+     * @param Map   $map
      * @param array $keys
      * @param array $values
      */
@@ -88,7 +90,7 @@ class MapTest extends TestCase {
             [$map2, $strKeys[1], true],
             [$map2, 'not_exists', false],
             [$map1, $objKeys[2], true],
-            [$map1, new \DateTimeImmutable('01-01-2012'), false]
+            [$map1, new DateTimeImmutable('01-01-2012'), false]
         ];
     }
 
@@ -97,9 +99,9 @@ class MapTest extends TestCase {
      * @test
      * @dataProvider containsKeyDataBuilder
      *
-     * @param Map $map
+     * @param Map   $map
      * @param mixed $key
-     * @param bool $exists
+     * @param bool  $exists
      */
     public function it_should_be_able_to_check_key_presence(Map $map, $key, bool $exists): void {
         $this->assertTrue($exists === $map->containsKey($key));
@@ -114,9 +116,9 @@ class MapTest extends TestCase {
 
         return [
             [$map2, $values[2], true],
-            [$map2, new \DateTimeImmutable('01-01-2012'), false],
+            [$map2, new DateTimeImmutable('01-01-2012'), false],
             [$map1, $values[0], true],
-            [$map1, new \DateTimeImmutable('01-01-2012'), false]
+            [$map1, new DateTimeImmutable('01-01-2012'), false]
         ];
     }
 
@@ -125,11 +127,11 @@ class MapTest extends TestCase {
      * @test
      * @dataProvider containsValueDataBuilder
      *
-     * @param Map $map
+     * @param Map                $map
      * @param \DateTimeImmutable $value
-     * @param bool $exists
+     * @param bool               $exists
      */
-    public function it_should_be_able_to_check_value_presence(Map $map, \DateTimeImmutable $value, bool $exists): void {
+    public function it_should_be_able_to_check_value_presence(Map $map, DateTimeImmutable $value, bool $exists): void {
         $this->assertTrue($exists === $map->containsValue($value));
     }
 
@@ -139,25 +141,25 @@ class MapTest extends TestCase {
         $values = $this->getValues();
 
         $builder = DateToDateMap::builder();
-        foreach (range(0, count($objectKeys)-1) as $index) {
+        foreach (range(0, count($objectKeys) - 1) as $index) {
             $builder->add($values[$index], $objectKeys[$index]);
         }
         $map1 = $builder->build();
 
         $builder = DateToDateMap::builder();
-        foreach (range(0, count($objectKeys)-1) as $index) {
+        foreach (range(0, count($objectKeys) - 1) as $index) {
             $builder->add($objectKeys[$index], $values[$index]);
         }
         $map2 = $builder->build();
 
         $builder = DateToDateMap::builder();
-        foreach (range(0, count($objectKeys)-1) as $index) {
+        foreach (range(0, count($objectKeys) - 1) as $index) {
             $builder->add($objectKeys[$index], $values[$index]);
         }
         $map3 = $builder->build();
 
         $builder = DateMap::builder();
-        foreach (range(0, count($basicKeys)-1) as $index) {
+        foreach (range(0, count($basicKeys) - 1) as $index) {
             $builder->add($basicKeys[$index], $values[$index]);
         }
         $map4 = $builder->build();
@@ -176,8 +178,8 @@ class MapTest extends TestCase {
      * @test
      * @dataProvider equalsDataBuilder
      *
-     * @param Map $m1
-     * @param Map $m2
+     * @param Map  $m1
+     * @param Map  $m2
      * @param bool $equals
      */
     public function it_should_be_able_to_check_equals(Map $m1, Map $m2, bool $equals): void {
@@ -193,14 +195,14 @@ class MapTest extends TestCase {
         foreach ($data as $row) {
             $filterData[] = [
                 $row[0],
-                function (\DateTimeImmutable $v, $k) use ($ts) {
+                function (DateTimeImmutable $v, $k) use ($ts) {
                     return $v->getTimestamp() < $ts;
                 },
                 1
             ];
-            $filterData[] =[
+            $filterData[] = [
                 $row[0],
-                function (\DateTimeImmutable $v, $k) use ($ts) {
+                function (DateTimeImmutable $v, $k) use ($ts) {
                     return $v->getTimestamp() > $ts;
                 },
                 2
@@ -215,9 +217,9 @@ class MapTest extends TestCase {
      * @test
      * @dataProvider filterMethodDataProvider
      *
-     * @param Map $map
+     * @param Map      $map
      * @param \Closure $filer
-     * @param int $count
+     * @param int      $count
      */
     public function it_should_be_able_to_be_filtered(Map $map, \Closure $filer, int $count): void {
         $this->assertEquals($count, $map->filter($filer)->count());
@@ -239,21 +241,24 @@ class MapTest extends TestCase {
      * @test
      * @dataProvider getMethodDataProvider
      *
-     * @param Map $map
-     * @param mixed $key
+     * @param Map                $map
+     * @param mixed              $key
      * @param \DateTimeInterface $value
-     * @param bool $success
+     * @param bool               $success
      */
     public function it_should_be_able_to_get_value(
-        Map $map, \DateTimeInterface $value, $key, bool $success
+        Map                $map,
+        \DateTimeInterface $value,
+                           $key,
+        bool               $success
     ): void {
         $this->assertEquals($success, $value === $map->get($key));
     }
 
     public function getOrDefaultMethodDataProvider(): array {
-        list($map, $keys, $values) = $this->iterableDataProvider()[0];
-        $defaultValue = new \DateTimeImmutable('01-01-2002');
-        $wrongKey = new \DateTimeImmutable('01-01-2003');
+        [$map, $keys, $values] = $this->iterableDataProvider()[0];
+        $defaultValue = new DateTimeImmutable('01-01-2002');
+        $wrongKey = new DateTimeImmutable('01-01-2003');
 
         return [
             [$map, $values[0], $keys[0], $defaultValue],
@@ -267,13 +272,13 @@ class MapTest extends TestCase {
      * @test
      * @dataProvider getOrDefaultMethodDataProvider
      *
-     * @param Map $map
+     * @param Map                $map
      * @param \DateTimeInterface $value
      * @param \DateTimeInterface $key
      * @param \DateTimeInterface $default
      */
     public function it_should_be_able_to_get_value_with_default(
-        Map $map,
+        Map                $map,
         \DateTimeInterface $value,
         \DateTimeInterface $key,
         \DateTimeInterface $default
@@ -282,7 +287,7 @@ class MapTest extends TestCase {
     }
 
     public function isEmptyMethodDataProvider(): array {
-        list($map, $keys, $_) = $this->iterableDataProvider()[0];
+        [$map, $keys, $_] = $this->iterableDataProvider()[0];
 
         return [
             [$map, count($keys) === 0],
@@ -295,7 +300,7 @@ class MapTest extends TestCase {
      * @test
      * @dataProvider isEmptyMethodDataProvider
      *
-     * @param Map $map
+     * @param Map  $map
      * @param bool $empty
      */
     public function it_should_be_able_to_check_emptiness(Map $map, bool $empty): void {
@@ -307,7 +312,7 @@ class MapTest extends TestCase {
      * @test
      * @dataProvider iterableDataProvider
      *
-     * @param Map $map
+     * @param Map                  $map
      * @param \DateTimeImmutable[] $keys
      * @param \DateTimeImmutable[] $values
      */
@@ -351,7 +356,7 @@ class MapTest extends TestCase {
      * @test
      * @dataProvider iterableDataProvider
      *
-     * @param Map $map
+     * @param Map                  $map
      * @param \DateTimeImmutable[] $keys
      * @param \DateTimeImmutable[] $values
      */
@@ -364,7 +369,7 @@ class MapTest extends TestCase {
      * @test
      * @dataProvider iterableDataProvider
      *
-     * @param Map $map
+     * @param Map                  $map
      * @param \DateTimeImmutable[] $keys
      * @param \DateTimeImmutable[] $values
      */
@@ -372,10 +377,17 @@ class MapTest extends TestCase {
         $this->assertEquals($values, array_values($map->toArray()));
     }
 
+    /**
+     * @param string|Map $class
+     * @param array      $keys
+     * @param array      $values
+     *
+     * @return \Granule\Util\Map
+     */
     private function getTestMap(string $class, array $keys, array $values): Map {
         /** @var MapBuilder $builder */
         $builder = $class::builder();
-        foreach (range(0, count($keys)-1) as $index) {
+        foreach (range(0, count($keys) - 1) as $index) {
             $builder->add($keys[$index], $values[$index]);
         }
 
@@ -384,9 +396,9 @@ class MapTest extends TestCase {
 
     private function getObjectKeys(): array {
         return [
-            new \DateTimeImmutable('01-01-2001'),
-            new \DateTimeImmutable('02-01-2010'),
-            new \DateTimeImmutable('03-01-2090')
+            new DateTimeImmutable('01-01-2001'),
+            new DateTimeImmutable('02-01-2010'),
+            new DateTimeImmutable('03-01-2090')
         ];
     }
 
@@ -396,9 +408,9 @@ class MapTest extends TestCase {
 
     private function getValues(): array {
         return [
-            new \DateTimeImmutable('10-10-2010'),
-            new \DateTimeImmutable('11-10-2020'),
-            new \DateTimeImmutable('12-10-2030')
+            new DateTimeImmutable('10-10-2010'),
+            new DateTimeImmutable('11-10-2020'),
+            new DateTimeImmutable('12-10-2030')
         ];
     }
 }

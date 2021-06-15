@@ -12,7 +12,10 @@ abstract class EnumWording extends Enum implements Hashable {
         return in_array($wording, self::getValues(), $strict);
     }
 
-    public static function fromWording(string $wording): Enum {
+    /**
+     * @return static
+     */
+    public static function fromWording(string $wording) {
         foreach (self::getValues() as $key => $value) {
             if ($value === $wording) {
                 return self::fromValue($key);

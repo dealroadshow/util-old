@@ -39,7 +39,7 @@ class StrictTypedMapBuilder extends MapBuilder implements StrictTypedValue {
         $type = is_object($value) ? get_class($value) : gettype($value);
         if (!($this->valueType == $type)) {
             throw new \TypeError(
-                sprintf('Expected type %s provided: ', $this->valueType, $type)
+                sprintf('Expected type %s provided: %s ', $this->valueType, $type)
             );
         }
 

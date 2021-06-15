@@ -52,7 +52,7 @@ class ArrayCollection implements Collection {
     }
 
     public static function builder(): CollectionBuilder {
-        if (is_a(static::class,StrictTypedValue::class, true)) {
+        if (is_a(static::class, StrictTypedValue::class, true)) {
             $reflection = new \ReflectionClass(static::class);
             /** @var StrictTypedValue $fake */
             $fake = $reflection->newInstanceWithoutConstructor();
@@ -69,8 +69,10 @@ class ArrayCollection implements Collection {
         foreach ($elements as $element) {
             $builder->add($element);
         }
+        /** @var ArrayCollection $collection */
+        $collection = $builder->build();
 
-        return $builder->build();
+        return $collection;
     }
 
     /** {@inheritdoc} */
@@ -88,7 +90,7 @@ class ArrayCollection implements Collection {
     /** {@inheritdoc} */
     public function containsAll(Collection $collection): bool {
         return $collection->toArray()
-            == array_uintersect($collection->toArray(), $this->elements, function ($e1, $e2) {
+               == array_uintersect($collection->toArray(), $this->elements, function ($e1, $e2) {
                 if ($e1 == $e2) {
                     return 0;
                 }

@@ -56,13 +56,14 @@ class ArrayMap implements Map {
                 || is_a(static::class, StrictTypedValue::class, true)
         ) {
             $reflection = new \ReflectionClass(static::class);
-            /** @var StrictTypedValue|StrictTypedKey $fake */
             $fake = $reflection->newInstanceWithoutConstructor();
 
             if (is_a(static::class, StrictTypedValue::class, true)) {
+                /** @var StrictTypedValue $fake */
                 $valueType = $fake->getValueType();
             }
             if (is_a(static::class, StrictTypedKey::class, true)) {
+                /** @var StrictTypedKey $fake */
                 $keyType = $fake->getKeyType();
             }
         }

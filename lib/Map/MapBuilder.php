@@ -38,7 +38,7 @@ class MapBuilder {
     /** @var string|null */
     protected $keyType;
 
-    public function __construct(string $mapClass, ?string $mappingType, ?string $keyType) {
+    public function __construct(string $mapClass, ?string $mappingType = null, ?string $keyType = null) {
         $this->mapClass = $mapClass;
         $this->mappingType = $mappingType;
         $this->keyType = $keyType;
@@ -72,7 +72,9 @@ class MapBuilder {
 
     public function build(): Map {
         $class = $this->mapClass;
+        /** @var Map $map */
+        $map = new $class($this);
 
-        return new $class($this);
+        return $map;
     }
 }

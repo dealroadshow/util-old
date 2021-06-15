@@ -57,7 +57,9 @@ class CollectionBuilder {
 
     public function build(): Collection {
         $class = $this->class;
+        /** @var Collection $map */
+        $map = new $class($this);
 
-        return new $class($this);
+        return $map;
     }
 }
