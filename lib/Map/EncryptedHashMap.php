@@ -25,8 +25,10 @@
 
 namespace Granule\Util\Map;
 
-class EncryptedHashMap extends HashMap {
-    protected function hashKey($key): string {
+class EncryptedHashMap extends HashMap
+{
+    protected function hashKey($key): string
+    {
         return md5(serialize($key));
     }
 }

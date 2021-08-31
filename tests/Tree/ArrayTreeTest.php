@@ -35,7 +35,8 @@ use PHPUnit\Framework\TestCase;
  * @coversDefaultClass ArrayTree
  * @coversDefaultClass MutableArrayTree
  */
-class ArrayTreeTest extends TestCase {
+class ArrayTreeTest extends TestCase
+{
     /** @var array */
     private static $data = [
         'var 0' => 'string var 0',
@@ -58,7 +59,8 @@ class ArrayTreeTest extends TestCase {
     /** @var ArrayTree */
     private static $immutableTree;
 
-    public static function setUpBeforeClass(): void {
+    public static function setUpBeforeClass(): void
+    {
         self::$mutableTree = MutableArrayTree::fromArray(self::$data);
         self::$immutableTree = ArrayTree::fromArray(self::$data);
     }
@@ -67,7 +69,8 @@ class ArrayTreeTest extends TestCase {
      * @test
      * @covers ::offsetGet
      */
-    public function data_should_be_accessible_by_key(): void {
+    public function data_should_be_accessible_by_key(): void
+    {
         $tree = self::$immutableTree;
 
         $this->assertEquals('string var 0', $tree['var 0']);
@@ -85,7 +88,8 @@ class ArrayTreeTest extends TestCase {
      * @test
      * @covers ::offsetGet
      */
-    public function data_should_be_accessible_by_path(): void {
+    public function data_should_be_accessible_by_path(): void
+    {
         $this->assertEquals('var 1.1.1', self::$mutableTree['var 1.1.1'], 'Numeric path elements failure');
         $this->assertEquals('var 1.0.1', self::$mutableTree['var 1.0.1'], 'Nullable numeric path elements failure');
         $this->assertEquals('value string 5.0', self::$mutableTree['var 5.var 5\.0'], 'Character escaping failure');
@@ -99,14 +103,18 @@ class ArrayTreeTest extends TestCase {
      * @covers ::valid
      * @covers ::rewind
      */
-    public function it_should_be_iterable(): void {
+    public function it_should_be_iterable(): void
+    {
         $index = 0;
         foreach (self::$mutableTree as $key => $value) {
             $this->assertEquals("var {$index}", $key);
-            $this->assertEquals(is_array(self::$data[$key])
+            $this->assertEquals(
+                is_array(self::$data[$key])
                 ? MutableArrayTree::fromArray(self::$data[$key], [$key])
                 : self::$data[$key],
-                $value, sprintf('Key is %s', $key));
+                $value,
+                sprintf('Key is %s', $key)
+            );
 
             $index++;
         }
@@ -116,7 +124,8 @@ class ArrayTreeTest extends TestCase {
      * @test
      * @covers ::count
      */
-    public function it_should_be_countable(): void {
+    public function it_should_be_countable(): void
+    {
         $this->assertEquals(6, count(self::$mutableTree));
         $this->assertEquals(3, count(self::$mutableTree['var 1']));
         $this->assertEquals(3, count(self::$mutableTree['var 1.0']));
@@ -127,7 +136,8 @@ class ArrayTreeTest extends TestCase {
      * @covers ::toImmutable
      * @covers ::toMutable
      */
-    public function it_should_be_convertible_to_mutable_and_back(): void {
+    public function it_should_be_convertible_to_mutable_and_back(): void
+    {
         $this->assertEquals(self::$immutableTree, self::$immutableTree->toImmutable());
         $this->assertEquals(self::$immutableTree, self::$mutableTree->toImmutable());
         $this->assertEquals(self::$mutableTree, self::$mutableTree->toMutable());
@@ -138,7 +148,8 @@ class ArrayTreeTest extends TestCase {
      * @test
      * @covers ::toArray
      */
-    public function it_should_be_convertible_to_array(): void {
+    public function it_should_be_convertible_to_array(): void
+    {
         $this->assertEquals(self::$data, self::$immutableTree->toArray());
         $this->assertEquals(self::$data, self::$mutableTree->toArray());
     }
@@ -148,7 +159,8 @@ class ArrayTreeTest extends TestCase {
      * @covers ::offsetSet
      * @covers ::offsetUnset
      */
-    public function mutable_tree_should_be_mutable(): void {
+    public function mutable_tree_should_be_mutable(): void
+    {
         $mutableTree = MutableArrayTree::fromArray(self::$data);
         $mutableTree['var 0'] = 'string 000';
         $mutableTree['var 1'][0][1] = 'string 1.0.1 but other one';
@@ -169,7 +181,8 @@ class ArrayTreeTest extends TestCase {
      * @test
      * @covers ::offsetGet
      */
-    public function it_should_throw_exception_when_xpath_not_found(): void {
+    public function it_should_throw_exception_when_xpath_not_found(): void
+    {
         $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage("Element \"var 1.3\" not found");
         self::$mutableTree['var 1.3'];
@@ -179,7 +192,8 @@ class ArrayTreeTest extends TestCase {
      * @test
      * @covers ::offsetGet
      */
-    public function it_should_throw_exception_when_key_not_found(): void {
+    public function it_should_throw_exception_when_key_not_found(): void
+    {
         $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage("Element \"var 1.3\" not found");
         self::$mutableTree['var 1'][3];
@@ -189,7 +203,8 @@ class ArrayTreeTest extends TestCase {
      * @test
      * @covers ::offsetGet
      */
-    public function it_should_throw_exception_when_index_key_not_found(): void {
+    public function it_should_throw_exception_when_index_key_not_found(): void
+    {
         $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage("Element \"var 1.2.2\" not found");
         foreach (self::$mutableTree['var 1'] as $value) {
@@ -201,7 +216,8 @@ class ArrayTreeTest extends TestCase {
      * @test
      * @covers ::offsetGet
      */
-    public function it_should_throw_exception_when_0_key_not_found(): void {
+    public function it_should_throw_exception_when_0_key_not_found(): void
+    {
         $this->expectException(\OutOfBoundsException::class);
         $this->expectExceptionMessage("Element \"var 1.0.5\" not found");
         foreach (self::$immutableTree['var 1'] as $value) {

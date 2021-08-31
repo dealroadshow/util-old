@@ -45,13 +45,15 @@ use Granule\Util\Exception\InvalidEnumValueException;
  * $m1->equalTo($m2); // -> true
  * </code>
  */
-abstract class Enum {
+abstract class Enum
+{
     /** @var string */
     private $value;
     /** @var Enum[][]  */
     private static $pool = [];
 
-    private final function __construct(string $value, array $arguments = null) {
+    final private function __construct(string $value, array $arguments = null)
+    {
         $this->value = $value;
 
         if (method_exists($this, '__init')) {
@@ -59,14 +61,17 @@ abstract class Enum {
         }
     }
 
-    private final function __clone() {
+    final private function __clone()
+    {
     }
 
-    public final function getValue(): string {
+    final public function getValue(): string
+    {
         return $this->value;
     }
 
-    public final function equalTo(Enum $another): bool {
+    final public function equalTo(Enum $another): bool
+    {
         return static::class === get_class($another)
                && $this->getValue() === $another->getValue();
     }
@@ -74,7 +79,8 @@ abstract class Enum {
     /**
      * @return static
      */
-    public static final function __callStatic(string $name, $_) {
+    final public static function __callStatic(string $name, $_)
+    {
         $arguments = self::getConstantArguments($name);
         if (!$arguments) {
             throw new InvalidEnumValueException(
@@ -94,15 +100,18 @@ abstract class Enum {
     /**
      * @return static
      */
-    public static function fromValue(string $value) {
+    public static function fromValue(string $value)
+    {
         return self::__callStatic($value, []);
     }
 
-    public static final function hasValue(string $value): bool {
+    final public static function hasValue(string $value): bool
+    {
         return array_key_exists($value, self::getValues());
     }
 
-    public static final function getValues(): array {
+    final public static function getValues(): array
+    {
         $reflectionClass = new \ReflectionClass(static::class);
         //        if (!$reflectionClass->isFinal()) {
         //            throw new \ParseError(static::class);
@@ -111,7 +120,8 @@ abstract class Enum {
         return $reflectionClass->getConstants();
     }
 
-    private static function getConstantArguments(string $value): ?array {
+    private static function getConstantArguments(string $value): ?array
+    {
         $values = self::getValues();
 
         if (!array_key_exists($value, $values)) {
@@ -123,7 +133,8 @@ abstract class Enum {
         return is_array($data) ? $data : [$data];
     }
 
-    public function __toString(): string {
+    public function __toString(): string
+    {
         return $this->getValue();
     }
 }

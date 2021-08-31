@@ -25,23 +25,28 @@
 
 namespace Granule\Util\Map;
 
-use Granule\Util\{
-    Collection, Hashable, Map,
-    StrictTypedKey, StrictTypedValue, TypeHelper
-};
+use Granule\Util\Collection;
+use Granule\Util\Hashable;
+use Granule\Util\Map;
+use Granule\Util\StrictTypedKey;
+use Granule\Util\StrictTypedValue;
+use Granule\Util\TypeHelper;
 
-abstract class HashMap implements Map {
+abstract class HashMap implements Map
+{
     /** @var mixed[] */
     protected $keys = [];
     /** @var mixed[] */
     protected $values = [];
 
-    public function __construct(HashMapBuilder $builder) {
+    public function __construct(HashMapBuilder $builder)
+    {
         $this->keys = $builder->getKeys();
         $this->values = $builder->getValues();
     }
 
-    public static function builder(): HashMapBuilder {
+    public static function builder(): HashMapBuilder
+    {
         $keyType = $valueType = null;
         $reflection = new \ReflectionClass(static::class);
         $fake = $reflection->newInstanceWithoutConstructor();
@@ -61,76 +66,90 @@ abstract class HashMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function current() {
+    public function current()
+    {
         return current($this->values);
     }
 
     /** {@inheritdoc} */
-    public function next(): void {
+    public function next(): void
+    {
         next($this->keys);
         next($this->values);
     }
 
     /** {@inheritdoc} */
-    public function key() {
+    public function key()
+    {
         return current($this->keys);
     }
 
     /** {@inheritdoc} */
-    public function valid(): bool {
+    public function valid(): bool
+    {
         return key($this->keys) !== null;
     }
 
     /** {@inheritdoc} */
-    public function rewind(): void {
+    public function rewind(): void
+    {
         reset($this->keys);
         reset($this->values);
     }
 
     /** {@inheritdoc} */
-    public function offsetExists($offset): bool {
+    public function offsetExists($offset): bool
+    {
         return in_array($offset, $this->keys);
     }
 
     /** {@inheritdoc} */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         TypeHelper::validateKey($offset, $this);
 
         return $this->values[$this->getKeyHash($offset)];
     }
 
     /** {@inheritdoc} */
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         throw new \BadMethodCallException('Unable to change immutable map');
     }
 
     /** {@inheritdoc} */
-    public function offsetUnset($offset): void {
+    public function offsetUnset($offset): void
+    {
         throw new \BadMethodCallException('Unable to change immutable map');
     }
 
     /** {@inheritdoc} */
-    public function hash(): string {
+    public function hash(): string
+    {
         return $this->hashKey($this);
     }
 
     /** {@inheritdoc} */
-    public function containsKey($key): bool {
+    public function containsKey($key): bool
+    {
         return in_array($key, $this->keys);
     }
 
     /** {@inheritdoc} */
-    public function containsValue($value): bool {
+    public function containsValue($value): bool
+    {
         return in_array($value, $this->values);
     }
 
     /** {@inheritdoc} */
-    public function equals(Map $map): bool {
+    public function equals(Map $map): bool
+    {
         return $this->hash() === $map->hash();
     }
 
     /** {@inheritdoc} */
-    public function filter(callable $filter): Map {
+    public function filter(callable $filter): Map
+    {
         $builder = static::builder();
         foreach ($this as $key => $element) {
             if ($filter($element, $key)) {
@@ -142,7 +161,8 @@ abstract class HashMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function get($key) {
+    public function get($key)
+    {
         TypeHelper::validateKey($key, $this);
         $hash = $this->getKeyHash($key);
 
@@ -153,7 +173,8 @@ abstract class HashMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function getOrDefault($key, $defaultValue) {
+    public function getOrDefault($key, $defaultValue)
+    {
         TypeHelper::validateKey($key, $this);
         TypeHelper::validateValue($defaultValue, $this);
 
@@ -161,31 +182,37 @@ abstract class HashMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function isEmpty(): bool {
+    public function isEmpty(): bool
+    {
         return $this->count() === 0;
     }
 
     /** {@inheritdoc} */
-    public function keys(): array {
+    public function keys(): array
+    {
         return array_values($this->keys);
     }
 
     /** {@inheritdoc} */
-    public function count(): int {
+    public function count(): int
+    {
         return count($this->values);
     }
 
     /** {@inheritdoc} */
-    public function values(string $collectionClass = null): Collection {
+    public function values(string $collectionClass = null): Collection
+    {
         return call_user_func([$collectionClass ?: Collection\ArrayCollection::class, 'fromArray'], $this->toArray());
     }
 
     /** {@inheritdoc} */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return array_values($this->values);
     }
 
-    private function getKeyHash($key): string {
+    private function getKeyHash($key): string
+    {
         if ($key instanceof Hashable) {
             return $key->hash();
         }

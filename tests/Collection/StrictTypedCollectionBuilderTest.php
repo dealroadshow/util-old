@@ -5,8 +5,11 @@ namespace Granule\Tests\Util\Collection;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
-use Granule\Tests\Util\Collection\_fixtures\{DateCollection, DateIntervalCollection};
-use Granule\Util\Collection\{ArrayCollection, CollectionBuilder, StrictTypedCollectionBuilder};
+use Granule\Tests\Util\Collection\_fixtures\DateCollection;
+use Granule\Tests\Util\Collection\_fixtures\DateIntervalCollection;
+use Granule\Util\Collection\ArrayCollection;
+use Granule\Util\Collection\CollectionBuilder;
+use Granule\Util\Collection\StrictTypedCollectionBuilder;
 use PHPUnit\Framework\TestCase;
 use TypeError;
 
@@ -15,14 +18,15 @@ use TypeError;
  * @group collection
  * @coversDefaultClass StrictTypedCollectionBuilder
  */
-class StrictTypedCollectionBuilderTest extends TestCase {
-
+class StrictTypedCollectionBuilderTest extends TestCase
+{
     /** @var CollectionBuilder */
     private $builder;
     /** @var ArrayCollection */
     private $collection;
 
-    public function provider(): array {
+    public function provider(): array
+    {
         return [
             [
                 'first' => new DateTimeImmutable('14-01-2014'),
@@ -42,8 +46,8 @@ class StrictTypedCollectionBuilderTest extends TestCase {
      * @throws TypeError
      * @throws \Exception
      */
-    public function it_should_be_able_to_add_elements($fixture): void {
-
+    public function it_should_be_able_to_add_elements($fixture): void
+    {
         foreach ($this->collection as $item) {
             $this->builder->add($item);
         }
@@ -69,7 +73,8 @@ class StrictTypedCollectionBuilderTest extends TestCase {
      *
      * @param $fixture
      */
-    public function it_should_be_able_to_add_all_elements_from_same_type_collection($fixture): void {
+    public function it_should_be_able_to_add_all_elements_from_same_type_collection($fixture): void
+    {
         $this->builder->addAll($this->collection);
         $createdCollection = $this->builder->build();
 
@@ -80,7 +85,8 @@ class StrictTypedCollectionBuilderTest extends TestCase {
      * @covers ::add
      * @test
      */
-    public function it_should_throw_exception_when_add_item_of_type_diff_from_declared() {
+    public function it_should_throw_exception_when_add_item_of_type_diff_from_declared()
+    {
         $this->expectException(TypeError::class);
 
         $this->builder->add(new DateTime());
@@ -90,7 +96,8 @@ class StrictTypedCollectionBuilderTest extends TestCase {
      * @covers ::addAll
      * @test
      */
-    public function it_should_throw_exception_when_add_typed_collection_of_type_diff_from_declared(): void {
+    public function it_should_throw_exception_when_add_typed_collection_of_type_diff_from_declared(): void
+    {
         $this->expectException(TypeError::class);
         $collection = DateIntervalCollection::fromArray([new DateInterval('P1D'), new DateInterval('P1Y')]);
 
@@ -100,7 +107,8 @@ class StrictTypedCollectionBuilderTest extends TestCase {
     /**
      * @dataProvider provider
      */
-    protected function setUp(): void {
+    protected function setUp(): void
+    {
         parent::setUp();
         $fixture = $this->getProvidedData();
         $this->collection = DateCollection::fromArray($fixture);

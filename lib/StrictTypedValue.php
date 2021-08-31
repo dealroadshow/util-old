@@ -25,6 +25,7 @@
 
 namespace Granule\Util;
 
-interface StrictTypedValue {
-    function getValueType(): string;
+interface StrictTypedValue
+{
+    public function getValueType(): string;
 }

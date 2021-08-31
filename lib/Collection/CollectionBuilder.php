@@ -27,23 +27,27 @@ namespace Granule\Util\Collection;
 
 use Granule\Util\Collection;
 
-class CollectionBuilder {
+class CollectionBuilder
+{
     /** @var array */
     protected $elements = [];
     /** @var string */
     protected $class;
 
-    public function __construct(string $collectionClass) {
+    public function __construct(string $collectionClass)
+    {
         $this->class = $collectionClass;
     }
 
-    public function add($element): CollectionBuilder {
+    public function add($element): CollectionBuilder
+    {
         $this->elements[] = $element;
 
         return $this;
     }
 
-    public function addAll(Collection $collection): CollectionBuilder {
+    public function addAll(Collection $collection): CollectionBuilder
+    {
         foreach ($collection as $item) {
             $this->add($item);
         }
@@ -51,11 +55,13 @@ class CollectionBuilder {
         return $this;
     }
 
-    public function getElements(): array {
+    public function getElements(): array
+    {
         return $this->elements;
     }
 
-    public function build(): Collection {
+    public function build(): Collection
+    {
         $class = $this->class;
         /** @var Collection $map */
         $map = new $class($this);

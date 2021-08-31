@@ -29,12 +29,15 @@ use Granule\Util\Map\EncryptedHashMap;
 use Granule\Util\StrictTypedKey;
 use Granule\Util\StrictTypedValue;
 
-class DateToDateMap extends EncryptedHashMap implements StrictTypedKey, StrictTypedValue {
-    public function getKeyType(): string {
+class DateToDateMap extends EncryptedHashMap implements StrictTypedKey, StrictTypedValue
+{
+    public function getKeyType(): string
+    {
         return \DateTimeImmutable::class;
     }
 
-    public function getValueType(): string {
+    public function getValueType(): string
+    {
         return \DateTimeImmutable::class;
     }
 }

@@ -28,7 +28,8 @@ namespace Granule\Util;
 /**
  * @see http://docs.oracle.com/javase/8/docs/api/java/util/Collection.html
  */
-interface Collection extends \IteratorAggregate, \Countable, \ArrayAccess, Hashable {
+interface Collection extends \IteratorAggregate, \Countable, \ArrayAccess, Hashable
+{
     /** Returns true if this collection contains the specified element. */
     public function contains($element): bool;
     /** Returns true if this collection contains all of the elements in the specified collection. */

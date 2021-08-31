@@ -31,6 +31,7 @@ interface Tree extends
     \Countable,
     \Serializable,
     \JsonSerializable,
-    Hashable {
-    function __invoke(string $offset, $default = null);
+    Hashable
+{
+    public function __invoke(string $offset, $default = null);
 }

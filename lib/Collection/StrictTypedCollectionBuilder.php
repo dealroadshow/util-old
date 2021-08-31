@@ -27,16 +27,19 @@ namespace Granule\Util\Collection;
 
 use Granule\Util\StrictTypedValue;
 
-class StrictTypedCollectionBuilder extends CollectionBuilder implements StrictTypedValue {
+class StrictTypedCollectionBuilder extends CollectionBuilder implements StrictTypedValue
+{
     /** @var string */
     protected $valueType;
 
-    public function __construct(string $collectionClass, string $valueType) {
+    public function __construct(string $collectionClass, string $valueType)
+    {
         parent::__construct($collectionClass);
         $this->valueType = $valueType;
     }
 
-    public function add($element): CollectionBuilder {
+    public function add($element): CollectionBuilder
+    {
         $type = is_object($element) ? get_class($element) : gettype($element);
         if (!($this->valueType == $type)) {
             throw new \TypeError(
@@ -48,7 +51,8 @@ class StrictTypedCollectionBuilder extends CollectionBuilder implements StrictTy
     }
 
 
-    public function getValueType(): string {
+    public function getValueType(): string
+    {
         return $this->valueType;
     }
 }

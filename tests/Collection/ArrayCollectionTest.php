@@ -36,8 +36,10 @@ use Granule\Util\Collection\ArrayCollection;
  * @group collection
  * @coversDefaultClass ArrayCollection
  */
-class ArrayCollectionTest extends TestCase {
-    public function provider(): array {
+class ArrayCollectionTest extends TestCase
+{
+    public function provider(): array
+    {
         return [
             [
                 [
@@ -58,7 +60,8 @@ class ArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|DateCollection $class
      */
-    public function it_should_contain_specific_element(array $fixture, string $class): void {
+    public function it_should_contain_specific_element(array $fixture, string $class): void
+    {
         /** @var Collection $collection */
         $collection = ArrayCollection::fromArray($fixture);
 
@@ -75,7 +78,8 @@ class ArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|DateCollection $class
      */
-    public function on_strict_mode_contains_method_should_throw_exception(array $fixture, string $class): void {
+    public function on_strict_mode_contains_method_should_throw_exception(array $fixture, string $class): void
+    {
         $this->expectExceptionMessage("Expected type DateTimeImmutable provided: DateTime");
         $this->expectException(\TypeError::class);
         /** @var Collection $collection */
@@ -91,7 +95,8 @@ class ArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|DateCollection $class
      */
-    public function it_should_contain_specific_collection_of_elements(array $fixture, string $class): void {
+    public function it_should_contain_specific_collection_of_elements(array $fixture, string $class): void
+    {
         /** @var Collection $collection */
         $collection = ArrayCollection::fromArray($fixture);
         /** @var Collection $other */
@@ -116,7 +121,8 @@ class ArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|DateCollection $class
      */
-    public function it_should_be_able_to_check_equals(array $fixture, string $class): void {
+    public function it_should_be_able_to_check_equals(array $fixture, string $class): void
+    {
         /** @var Collection $other */
         $collection = ArrayCollection::fromArray($fixture);
         /** @var Collection $other */
@@ -143,7 +149,8 @@ class ArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|DateCollection $class
      */
-    public function it_should_be_able_to_check_emptiness(array $fixture, string $class): void {
+    public function it_should_be_able_to_check_emptiness(array $fixture, string $class): void
+    {
         /** @var Collection $collection */
         $collection = ArrayCollection::fromArray($fixture);
         /** @var Collection $collection */
@@ -161,7 +168,8 @@ class ArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|DateCollection $class
      */
-    public function it_should_be_countable(array $fixture, string $class): void {
+    public function it_should_be_countable(array $fixture, string $class): void
+    {
         /** @var Collection $collection */
         $collection = ArrayCollection::fromArray($fixture);
 
@@ -183,7 +191,8 @@ class ArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|ArrayCollection $class
      */
-    public function it_should_be_readable(array $fixture, string $class): void {
+    public function it_should_be_readable(array $fixture, string $class): void
+    {
         /** @var Collection $collection */
         $collection = $class::fromArray($fixture);
 
@@ -199,7 +208,8 @@ class ArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|ArrayCollection $class
      */
-    public function it_should_throw_exception_when_try_to_read_nonexistent_element(array $fixture, string $class): void {
+    public function it_should_throw_exception_when_try_to_read_nonexistent_element(array $fixture, string $class): void
+    {
         $this->expectExceptionMessage("Undefined element by index: 10");
         $this->expectException(\OutOfRangeException::class);
         /** @var Collection $collection */
@@ -216,7 +226,8 @@ class ArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|ArrayCollection $class
      */
-    public function it_should_be_able_to_get_element_index(array $fixture, string $class): void {
+    public function it_should_be_able_to_get_element_index(array $fixture, string $class): void
+    {
         /** @var Collection $collection */
         $collection = $class::fromArray($fixture);
         $values = array_values($fixture);
@@ -235,7 +246,8 @@ class ArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|ArrayCollection $class
      */
-    public function it_should_be_iterable(array $fixture, string $class): void {
+    public function it_should_be_iterable(array $fixture, string $class): void
+    {
         /** @var Collection $collection */
         $collection = $class::fromArray($fixture);
         $values = array_values($fixture);
@@ -257,7 +269,8 @@ class ArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|ArrayCollection $class
      */
-    public function it_should_be_array_accessible(array $fixture, string $class): void {
+    public function it_should_be_array_accessible(array $fixture, string $class): void
+    {
         /** @var Collection $collection */
         $collection = $class::fromArray($fixture);
         $values = array_values($fixture);
@@ -278,7 +291,8 @@ class ArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|ArrayCollection $class
      */
-    public function it_should_be_hashable(array $fixture, string $class): void {
+    public function it_should_be_hashable(array $fixture, string $class): void
+    {
         /** @var Collection $collection */
         $collection = $class::fromArray($fixture);
 

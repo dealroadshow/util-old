@@ -27,7 +27,8 @@ namespace Granule\Util\Map;
 
 use Granule\Util\TypeHelper;
 
-class HashMapBuilder {
+class HashMapBuilder
+{
     /** @var array */
     protected $keys = [];
     /** @var array */
@@ -53,7 +54,8 @@ class HashMapBuilder {
         $this->keyType = $keyType;
     }
 
-    public function add($key, $value): HashMapBuilder {
+    public function add($key, $value): HashMapBuilder
+    {
         if ($this->keyType) {
             TypeHelper::validate($key, $this->keyType);
         }
@@ -71,7 +73,8 @@ class HashMapBuilder {
         return $this;
     }
 
-    public function addAll(HashMap $hashMap): HashMapBuilder {
+    public function addAll(HashMap $hashMap): HashMapBuilder
+    {
         foreach ($hashMap as $key => $value) {
             $this->add($key, $value);
         }
@@ -79,15 +82,18 @@ class HashMapBuilder {
         return $this;
     }
 
-    public function getKeys(): array {
+    public function getKeys(): array
+    {
         return $this->keys;
     }
 
-    public function getValues(): array {
+    public function getValues(): array
+    {
         return $this->values;
     }
 
-    public function build(): HashMap {
+    public function build(): HashMap
+    {
         $class = $this->mapClass;
         /** @var HashMap $map */
         $map = new $class($this);

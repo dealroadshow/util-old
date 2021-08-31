@@ -28,8 +28,10 @@ namespace Granule\Tests\Util\Collection\_fixtures;
 use Granule\Util\Collection\MutableArrayCollection;
 use Granule\Util\StrictTypedValue;
 
-class MutableDateCollection extends MutableArrayCollection implements StrictTypedValue {
-    public function getValueType(): string {
+class MutableDateCollection extends MutableArrayCollection implements StrictTypedValue
+{
+    public function getValueType(): string
+    {
         return \DateTime::class;
     }
 }

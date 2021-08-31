@@ -25,6 +25,7 @@
 
 namespace Granule\Util;
 
-interface StrictTypedKey {
-    function getKeyType(): string;
+interface StrictTypedKey
+{
+    public function getKeyType(): string;
 }

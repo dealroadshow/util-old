@@ -25,8 +25,10 @@
 
 namespace Granule\Util\Tree;
 
-class MutableArrayTree extends ArrayTree {
-    public function offsetSet($offset, $value): void {
+class MutableArrayTree extends ArrayTree
+{
+    public function offsetSet($offset, $value): void
+    {
         if (is_null($offset)) {
             $this->data[] = $value;
         } else {
@@ -45,21 +47,30 @@ class MutableArrayTree extends ArrayTree {
         }
     }
 
-    public function offsetUnset($offset): void {
+    public function offsetUnset($offset): void
+    {
         $offset = $this->extractKey($offset);
-        $this->find($this->data, array_shift($offset), [], $offset,
+        $this->find(
+            $this->data,
+            array_shift($offset),
+            [],
+            $offset,
             function (&$value, array $p, &$data, string $key) {
                 unset($data[$key]);
-            }, function (array $path) {
+            },
+            function (array $path) {
                 throw new \OutOfBoundsException(sprintf('Element "%s" not found', implode('.', $path)));
-            });
+            }
+        );
     }
 
-    public function toMutable(): MutableArrayTree {
+    public function toMutable(): MutableArrayTree
+    {
         return $this;
     }
 
-    public function toImmutable(): ArrayTree {
+    public function toImmutable(): ArrayTree
+    {
         return ArrayTree::fromArray($this->data);
     }
 }
