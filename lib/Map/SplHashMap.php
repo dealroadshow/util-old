@@ -25,8 +25,10 @@
 
 namespace Granule\Util\Map;
 
-class SplHashMap extends HashMap {
-    protected function hashKey($key): string {
+class SplHashMap extends HashMap
+{
+    protected function hashKey($key): string
+    {
         return spl_object_hash($key);
     }
 }

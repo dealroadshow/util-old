@@ -25,40 +25,50 @@
 
 namespace Granule\Util;
 
-final class TypeHelper {
+final class TypeHelper
+{
     /** @psalm-suppress UnusedConstructor */
-    private function __construct() {
+    private function __construct()
+    {
     }
 
     /** @psalm-suppress UnusedConstructor */
-    private function __clone() {
+    private function __clone()
+    {
     }
 
-    public static function getType($cause): string {
+    public static function getType($cause): string
+    {
         return is_object($cause) ? get_class($cause) : gettype($cause);
     }
 
-    public static function validate($cause, string $expectedType): void {
+    public static function validate($cause, string $expectedType): void
+    {
         if (!self::hasType($cause, $expectedType)) {
-            throw new \TypeError(sprintf('Expected type %s provided: %s',
-                $expectedType, self::getType($cause)
+            throw new \TypeError(sprintf(
+                'Expected type %s provided: %s',
+                $expectedType,
+                self::getType($cause)
             ));
         }
     }
 
-    public static function hasType($cause, string $type): bool {
+    public static function hasType($cause, string $type): bool
+    {
         $actualType = self::getType($cause);
 
         return $actualType === $type;
     }
 
-    public static function validateKey($key, $object): void {
+    public static function validateKey($key, $object): void
+    {
         if ($object instanceof StrictTypedKey) {
             self::validate($key, $object->getKeyType());
         }
     }
 
-    public static function validateValue($value, $object): void {
+    public static function validateValue($value, $object): void
+    {
         if ($object instanceof StrictTypedValue) {
             self::validate($value, $object->getValueType());
         }

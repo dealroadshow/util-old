@@ -37,8 +37,10 @@ use PHPUnit\Framework\TestCase;
  * @group unit
  * @coversDefaultClass ObjectMap
  */
-class MapTest extends TestCase {
-    public function iterableDataProvider(): array {
+class MapTest extends TestCase
+{
+    public function iterableDataProvider(): array
+    {
         $objKeys = $this->getObjectKeys();
         $strKeys = $this->getBasicKeys();
         $values = $this->getValues();
@@ -70,7 +72,8 @@ class MapTest extends TestCase {
      * @param array $keys
      * @param array $values
      */
-    public function it_should_be_iterable(Map $map, array $keys, array $values): void {
+    public function it_should_be_iterable(Map $map, array $keys, array $values): void
+    {
         $i = 0;
         foreach ($map as $key => $value) {
             $this->assertEquals($keys[$i], $key, "Invalid key on index: $i");
@@ -79,7 +82,8 @@ class MapTest extends TestCase {
         }
     }
 
-    public function containsKeyDataBuilder(): array {
+    public function containsKeyDataBuilder(): array
+    {
         $objKeys = $this->getObjectKeys();
         $strKeys = $this->getBasicKeys();
         $values = $this->getValues();
@@ -103,11 +107,13 @@ class MapTest extends TestCase {
      * @param mixed $key
      * @param bool  $exists
      */
-    public function it_should_be_able_to_check_key_presence(Map $map, $key, bool $exists): void {
+    public function it_should_be_able_to_check_key_presence(Map $map, $key, bool $exists): void
+    {
         $this->assertTrue($exists === $map->containsKey($key));
     }
 
-    public function containsValueDataBuilder(): array {
+    public function containsValueDataBuilder(): array
+    {
         $objKeys = $this->getObjectKeys();
         $strKeys = $this->getBasicKeys();
         $values = $this->getValues();
@@ -131,11 +137,13 @@ class MapTest extends TestCase {
      * @param \DateTimeImmutable $value
      * @param bool               $exists
      */
-    public function it_should_be_able_to_check_value_presence(Map $map, DateTimeImmutable $value, bool $exists): void {
+    public function it_should_be_able_to_check_value_presence(Map $map, DateTimeImmutable $value, bool $exists): void
+    {
         $this->assertTrue($exists === $map->containsValue($value));
     }
 
-    public function equalsDataBuilder(): array {
+    public function equalsDataBuilder(): array
+    {
         $objectKeys = $this->getObjectKeys();
         $basicKeys = $this->getBasicKeys();
         $values = $this->getValues();
@@ -182,12 +190,14 @@ class MapTest extends TestCase {
      * @param Map  $m2
      * @param bool $equals
      */
-    public function it_should_be_able_to_check_equals(Map $m1, Map $m2, bool $equals): void {
+    public function it_should_be_able_to_check_equals(Map $m1, Map $m2, bool $equals): void
+    {
         $this->assertTrue($equals === $m1->equals($m2));
         $this->assertTrue($m2->equals($m1) === $m1->equals($m2));
     }
 
-    public function filterMethodDataProvider(): array {
+    public function filterMethodDataProvider(): array
+    {
         $ts = (new \DateTime('01-01-2012'))->getTimestamp();
         $filterData = [];
         $data = $this->iterableDataProvider();
@@ -221,11 +231,13 @@ class MapTest extends TestCase {
      * @param \Closure $filer
      * @param int      $count
      */
-    public function it_should_be_able_to_be_filtered(Map $map, \Closure $filer, int $count): void {
+    public function it_should_be_able_to_be_filtered(Map $map, \Closure $filer, int $count): void
+    {
         $this->assertEquals($count, $map->filter($filer)->count());
     }
 
-    public function getMethodDataProvider(): array {
+    public function getMethodDataProvider(): array
+    {
         $data = [];
         foreach ($this->iterableDataProvider() as $case) {
             //          map     value           key     +-
@@ -249,13 +261,14 @@ class MapTest extends TestCase {
     public function it_should_be_able_to_get_value(
         Map                $map,
         \DateTimeInterface $value,
-                           $key,
+        $key,
         bool               $success
     ): void {
         $this->assertEquals($success, $value === $map->get($key));
     }
 
-    public function getOrDefaultMethodDataProvider(): array {
+    public function getOrDefaultMethodDataProvider(): array
+    {
         [$map, $keys, $values] = $this->iterableDataProvider()[0];
         $defaultValue = new DateTimeImmutable('01-01-2002');
         $wrongKey = new DateTimeImmutable('01-01-2003');
@@ -286,7 +299,8 @@ class MapTest extends TestCase {
         $this->assertEquals($value, $map->getOrDefault($key, $default));
     }
 
-    public function isEmptyMethodDataProvider(): array {
+    public function isEmptyMethodDataProvider(): array
+    {
         [$map, $keys, $_] = $this->iterableDataProvider()[0];
 
         return [
@@ -303,7 +317,8 @@ class MapTest extends TestCase {
      * @param Map  $map
      * @param bool $empty
      */
-    public function it_should_be_able_to_check_emptiness(Map $map, bool $empty): void {
+    public function it_should_be_able_to_check_emptiness(Map $map, bool $empty): void
+    {
         $this->assertTrue($empty === $map->isEmpty());
     }
 
@@ -316,11 +331,13 @@ class MapTest extends TestCase {
      * @param \DateTimeImmutable[] $keys
      * @param \DateTimeImmutable[] $values
      */
-    public function it_should_be_able_to_check_keys(Map $map, array $keys, array $values): void {
+    public function it_should_be_able_to_check_keys(Map $map, array $keys, array $values): void
+    {
         $this->assertEquals($keys, $map->keys());
     }
 
-    public function countableDataProvider(): array {
+    public function countableDataProvider(): array
+    {
         $src = $this->iterableDataProvider();
         $data = [];
 
@@ -347,7 +364,8 @@ class MapTest extends TestCase {
      * @param Map $map
      * @param int $count
      */
-    public function it_should_be_countable(Map $map, int $count): void {
+    public function it_should_be_countable(Map $map, int $count): void
+    {
         $this->assertEquals($count, $map->count());
     }
 
@@ -360,7 +378,8 @@ class MapTest extends TestCase {
      * @param \DateTimeImmutable[] $keys
      * @param \DateTimeImmutable[] $values
      */
-    public function it_should_be_able_to_check_values(Map $map, array $keys, array $values): void {
+    public function it_should_be_able_to_check_values(Map $map, array $keys, array $values): void
+    {
         $this->assertEquals($values, $map->values()->toArray());
     }
 
@@ -373,7 +392,8 @@ class MapTest extends TestCase {
      * @param \DateTimeImmutable[] $keys
      * @param \DateTimeImmutable[] $values
      */
-    public function it_should_be_able_to_convert_to_array(Map $map, array $keys, array $values): void {
+    public function it_should_be_able_to_convert_to_array(Map $map, array $keys, array $values): void
+    {
         $this->assertEquals($values, array_values($map->toArray()));
     }
 
@@ -384,7 +404,8 @@ class MapTest extends TestCase {
      *
      * @return \Granule\Util\Map
      */
-    private function getTestMap(string $class, array $keys, array $values): Map {
+    private function getTestMap(string $class, array $keys, array $values): Map
+    {
         /** @var MapBuilder $builder */
         $builder = $class::builder();
         foreach (range(0, count($keys) - 1) as $index) {
@@ -394,7 +415,8 @@ class MapTest extends TestCase {
         return $builder->build();
     }
 
-    private function getObjectKeys(): array {
+    private function getObjectKeys(): array
+    {
         return [
             new DateTimeImmutable('01-01-2001'),
             new DateTimeImmutable('02-01-2010'),
@@ -402,11 +424,13 @@ class MapTest extends TestCase {
         ];
     }
 
-    private function getBasicKeys(): array {
+    private function getBasicKeys(): array
+    {
         return ['one', 'two', 'three'];
     }
 
-    private function getValues(): array {
+    private function getValues(): array
+    {
         return [
             new DateTimeImmutable('10-10-2010'),
             new DateTimeImmutable('11-10-2020'),

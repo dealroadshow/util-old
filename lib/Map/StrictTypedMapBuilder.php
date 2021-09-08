@@ -27,15 +27,18 @@ namespace Granule\Util\Map;
 
 use Granule\Util\StrictTypedValue;
 
-class StrictTypedMapBuilder extends MapBuilder implements StrictTypedValue {
+class StrictTypedMapBuilder extends MapBuilder implements StrictTypedValue
+{
     private $valueType;
 
-    public function __construct(string $mapClass, string $valueType) {
+    public function __construct(string $mapClass, string $valueType)
+    {
         parent::__construct($mapClass);
         $this->valueType = $valueType;
     }
 
-    public function add($key, $value): MapBuilder {
+    public function add($key, $value): MapBuilder
+    {
         $type = is_object($value) ? get_class($value) : gettype($value);
         if (!($this->valueType == $type)) {
             throw new \TypeError(
@@ -46,7 +49,8 @@ class StrictTypedMapBuilder extends MapBuilder implements StrictTypedValue {
         return parent::add($key, $value);
     }
 
-    public function getValueType(): string {
+    public function getValueType(): string
+    {
         return $this->valueType;
     }
 }

@@ -28,16 +28,19 @@ namespace Granule\Util\Map;
 use Granule\Util\Map;
 use Granule\Util\TypeHelper;
 
-class ObjectMapBuilder extends MapBuilder {
+class ObjectMapBuilder extends MapBuilder
+{
     /** @var \SplObjectStorage */
     protected $items;
 
-    public function __construct($mapClass, $mappingType, $keyType) {
+    public function __construct($mapClass, $mappingType, $keyType)
+    {
         parent::__construct($mapClass, $mappingType, $keyType);
-        $this->items = new \SplObjectStorage;
+        $this->items = new \SplObjectStorage();
     }
 
-    public function add($key, $value): MapBuilder {
+    public function add($key, $value): MapBuilder
+    {
         if ($this->keyType) {
             TypeHelper::validate($key, $this->keyType);
         }
@@ -51,11 +54,13 @@ class ObjectMapBuilder extends MapBuilder {
         return $this;
     }
 
-    public function getElements(): array {
+    public function getElements(): array
+    {
         throw new \BadMethodCallException('Not supported method');
     }
 
-    public function build(): Map {
+    public function build(): Map
+    {
         return call_user_func([$this->mapClass, 'fromStorage'], $this->items);
     }
 }

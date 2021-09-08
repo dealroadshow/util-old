@@ -32,15 +32,18 @@ use Granule\Util\StrictTypedKey;
 use Granule\Util\StrictTypedValue;
 use Granule\Util\TypeHelper;
 
-class ArrayMap implements Map {
+class ArrayMap implements Map
+{
     /** @var object[] */
     protected $elements = [];
 
-    public function __construct(MapBuilder $builder) {
+    public function __construct(MapBuilder $builder)
+    {
         $this->elements = $builder->getElements();
     }
 
-    public static function fromArray(array $elements): Map {
+    public static function fromArray(array $elements): Map
+    {
         $builder = self::builder();
 
         foreach ($elements as $key => $value) {
@@ -50,7 +53,8 @@ class ArrayMap implements Map {
         return $builder->build();
     }
 
-    public static function builder(): MapBuilder {
+    public static function builder(): MapBuilder
+    {
         $keyType = $valueType = null;
         if (is_a(static::class, StrictTypedKey::class, true)
                 || is_a(static::class, StrictTypedValue::class, true)
@@ -72,29 +76,36 @@ class ArrayMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function containsKey($key): bool {
+    public function containsKey($key): bool
+    {
         return array_key_exists($key, $this->elements);
     }
 
     /** {@inheritdoc} */
-    public function containsValue($value): bool {
+    public function containsValue($value): bool
+    {
         return in_array($value, $this->elements);
     }
 
     /** {@inheritdoc} */
-    public function equals(Map $map): bool {
+    public function equals(Map $map): bool
+    {
         return $map->toArray() == $this->toArray();
     }
 
     /** {@inheritdoc} */
-    public function filter(callable $filter): Map {
+    public function filter(callable $filter): Map
+    {
         return static::fromArray(array_filter(
-            $this->elements, $filter, ARRAY_FILTER_USE_BOTH
+            $this->elements,
+            $filter,
+            ARRAY_FILTER_USE_BOTH
         ));
     }
 
     /** {@inheritdoc} */
-    public function get($key) {
+    public function get($key)
+    {
         TypeHelper::validateKey($key, $this);
         if ($this->containsKey($key)) {
             return $this->elements[$key];
@@ -104,7 +115,8 @@ class ArrayMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function getOrDefault($key, $defaultValue) {
+    public function getOrDefault($key, $defaultValue)
+    {
         TypeHelper::validateKey($key, $this);
         if ($this->containsKey($key)) {
             return $this->elements[$key];
@@ -114,79 +126,94 @@ class ArrayMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function isEmpty(): bool {
+    public function isEmpty(): bool
+    {
         return $this->count() === 0;
     }
 
     /** {@inheritdoc} */
-    public function keys(): array {
+    public function keys(): array
+    {
         return array_keys($this->elements);
     }
 
     /** {@inheritdoc} */
-    public function count(): int {
+    public function count(): int
+    {
         return count($this->elements);
     }
 
     /** {@inheritdoc} */
-    public function values(string $collectionClass = null): Collection {
+    public function values(string $collectionClass = null): Collection
+    {
         return call_user_func([
             $collectionClass ?: ArrayCollection::class, 'fromArray'
         ], $this->toArray());
     }
 
     /** {@inheritdoc} */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return $this->elements;
     }
 
     /** {@inheritdoc} */
-    public function hash(): string {
+    public function hash(): string
+    {
         return md5(serialize($this->elements));
     }
 
     /** {@inheritdoc} */
-    public function offsetExists($offset): bool {
+    public function offsetExists($offset): bool
+    {
         return $this->containsKey($offset);
     }
 
     /** {@inheritdoc} */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return $this->get($offset);
     }
 
     /** {@inheritdoc} */
-    public function offsetSet($offset, $value): void {
+    public function offsetSet($offset, $value): void
+    {
         throw new \BadMethodCallException('Unable to change immutable map');
     }
 
     /** {@inheritdoc} */
-    public function offsetUnset($offset): void {
+    public function offsetUnset($offset): void
+    {
         throw new \BadMethodCallException('Unable to change immutable map');
     }
 
     /** {@inheritdoc} */
-    public function current() {
+    public function current()
+    {
         return current($this->elements);
     }
 
     /** {@inheritdoc} */
-    public function next(): void {
+    public function next(): void
+    {
         next($this->elements);
     }
 
     /** {@inheritdoc} */
-    public function key() {
+    public function key()
+    {
         return key($this->elements);
     }
 
     /** {@inheritdoc} */
-    public function valid(): bool {
+    public function valid(): bool
+    {
         return key($this->elements) !== null;
     }
 
     /** {@inheritdoc} */
-    public function rewind(): void {
+    public function rewind(): void
+    {
         reset($this->elements);
     }
 }

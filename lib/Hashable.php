@@ -25,6 +25,7 @@
 
 namespace Granule\Util;
 
-interface Hashable {
-    function hash(): string;
+interface Hashable
+{
+    public function hash(): string;
 }

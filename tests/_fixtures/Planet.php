@@ -37,7 +37,8 @@ use Granule\Util\Enum;
  * @method static Planet URANUS()
  * @method static Planet NEPTUNE()
  */
-class Planet extends Enum {
+class Planet extends Enum
+{
     private const
         MERCURY = [3.303e+23, 2.4397e6],
         VENUS = [4.869e+24, 6.0518e6],
@@ -53,27 +54,32 @@ class Planet extends Enum {
     /** @var float */
     private $radius; // in meters
 
-    public function __init(float $mass, float $radius) {
+    public function __init(float $mass, float $radius)
+    {
         $this->mass = $mass;
         $this->radius = $radius;
     }
 
-    public function getMass(): float {
+    public function getMass(): float
+    {
         return $this->mass;
     }
 
-    public function getRadius(): float {
+    public function getRadius(): float
+    {
         return $this->radius;
     }
 
     // universal gravitational constant  (m3 kg-1 s-2)
     public static $G = 6.67300E-11;
 
-    public function surfaceGravity(): float {
+    public function surfaceGravity(): float
+    {
         return self::$G * $this->mass / ($this->radius * $this->radius);
     }
 
-    public function surfaceWeight(float $otherMass): float {
+    public function surfaceWeight(float $otherMass): float
+    {
         return $otherMass * $this->surfaceGravity();
     }
 }

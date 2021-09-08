@@ -28,7 +28,8 @@ namespace Granule\Util\Map;
 use Granule\Util\Map;
 use Granule\Util\TypeHelper;
 
-class MapBuilder {
+class MapBuilder
+{
     /** @var array */
     protected $elements = [];
     /** @var string */
@@ -38,13 +39,15 @@ class MapBuilder {
     /** @var string|null */
     protected $keyType;
 
-    public function __construct(string $mapClass, ?string $mappingType = null, ?string $keyType = null) {
+    public function __construct(string $mapClass, ?string $mappingType = null, ?string $keyType = null)
+    {
         $this->mapClass = $mapClass;
         $this->mappingType = $mappingType;
         $this->keyType = $keyType;
     }
 
-    public function add($key, $value): MapBuilder {
+    public function add($key, $value): MapBuilder
+    {
         if ($this->keyType) {
             TypeHelper::validate($key, $this->keyType);
         }
@@ -58,7 +61,8 @@ class MapBuilder {
         return $this;
     }
 
-    public function addAll(Map $map): MapBuilder {
+    public function addAll(Map $map): MapBuilder
+    {
         foreach ($map as $key => $value) {
             $this->add($key, $value);
         }
@@ -66,11 +70,13 @@ class MapBuilder {
         return $this;
     }
 
-    public function getElements(): array {
+    public function getElements(): array
+    {
         return $this->elements;
     }
 
-    public function build(): Map {
+    public function build(): Map
+    {
         $class = $this->mapClass;
         /** @var Map $map */
         $map = new $class($this);

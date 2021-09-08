@@ -25,12 +25,14 @@
 
 namespace Granule\Util\Collection;
 
-use Granule\Util\{Collection, MutableCollection};
+use Granule\Util\Collection;
+use Granule\Util\MutableCollection;
 
-class MutableArrayCollection extends ArrayCollection implements MutableCollection {
-
+class MutableArrayCollection extends ArrayCollection implements MutableCollection
+{
     /** {@inheritdoc} */
-    public function add($element): bool {
+    public function add($element): bool
+    {
         $this->validateElement($element);
         if ($this->contains($element)) {
             return false;
@@ -41,7 +43,8 @@ class MutableArrayCollection extends ArrayCollection implements MutableCollectio
     }
 
     /** {@inheritdoc} */
-    public function addAll(Collection $collection): bool {
+    public function addAll(Collection $collection): bool
+    {
         $changed = false;
         foreach ($collection as $item) {
             if ($this->add($item)) {
@@ -53,12 +56,14 @@ class MutableArrayCollection extends ArrayCollection implements MutableCollectio
     }
 
     /** {@inheritdoc} */
-    public function clear(): void {
+    public function clear(): void
+    {
         $this->elements = [];
     }
 
     /** {@inheritdoc} */
-    public function remove($element): bool {
+    public function remove($element): bool
+    {
         $index = $this->indexOf($element);
         if ($index !== null) {
             unset($this->elements[$index]);
@@ -70,7 +75,8 @@ class MutableArrayCollection extends ArrayCollection implements MutableCollectio
     }
 
     /** {@inheritdoc} */
-    public function removeAll(Collection $collection): bool {
+    public function removeAll(Collection $collection): bool
+    {
         $changed = false;
         foreach ($collection as $element) {
             if ($this->remove($element)) {
@@ -82,7 +88,8 @@ class MutableArrayCollection extends ArrayCollection implements MutableCollectio
     }
 
     /** {@inheritdoc} */
-    public function removeIf(callable $filter): bool {
+    public function removeIf(callable $filter): bool
+    {
         $count = count($this->elements);
         $this->elements = array_filter($this->elements, function ($v, $k) use ($filter) {
             return !$filter($v, $k);
@@ -92,7 +99,8 @@ class MutableArrayCollection extends ArrayCollection implements MutableCollectio
     }
 
     /** {@inheritdoc} */
-    public function retainAll(Collection $collection): bool {
+    public function retainAll(Collection $collection): bool
+    {
         $changed = false;
         $retained = $collection->toArray();
 
@@ -107,7 +115,8 @@ class MutableArrayCollection extends ArrayCollection implements MutableCollectio
     }
 
     /** {@inheritdoc} */
-    public function offsetSet($offset, $value): void {
+    public function offsetSet($offset, $value): void
+    {
         if ($offset === null) {
             $this->add($value);
         } else {
@@ -116,7 +125,8 @@ class MutableArrayCollection extends ArrayCollection implements MutableCollectio
     }
 
     /** {@inheritdoc} */
-    public function offsetUnset($offset): void {
+    public function offsetUnset($offset): void
+    {
         if (!is_integer($offset)) {
             throw new \TypeError(
                 sprintf('Expected integer type, provided: %s', gettype($offset))

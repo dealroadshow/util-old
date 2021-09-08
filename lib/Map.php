@@ -25,54 +25,55 @@
 
 namespace Granule\Util;
 
-interface Map extends \Iterator, \Countable, \ArrayAccess, Hashable {
+interface Map extends \Iterator, \Countable, \ArrayAccess, Hashable
+{
     /** Returns true if this map contains a mapping for the specified key. */
-    function containsKey($key): bool;
+    public function containsKey($key): bool;
     /** Returns true if this map maps one or more keys to the specified value. */
-    function containsValue($value): bool;
+    public function containsValue($value): bool;
     /** Compares the specified object with this map for equality. */
-    function equals(Map $map): bool;
+    public function equals(Map $map): bool;
     /** Returns filtered map */
-    function filter(callable $filter): Map;
+    public function filter(callable $filter): Map;
     /** Returns the value to which the specified key is mapped,
      * or null if this map contains no mapping for the key. */
-    function get($key);
+    public function get($key);
     /** Returns the value to which the specified key is mapped,
      * or defaultValue if this map contains no mapping for the key. */
-    function getOrDefault($key, $defaultValue);
+    public function getOrDefault($key, $defaultValue);
     /** Returns true if this map contains no key-value mappings. */
-    function isEmpty(): bool;
+    public function isEmpty(): bool;
     /** Returns an array of the keys contained in this map. */
-    function keys(): array;
+    public function keys(): array;
     /** Returns the number of key-value mappings in this map. */
-    function count(): int;
+    public function count(): int;
     /** Returns a Collection view of the values contained in this map. */
-    function values(string $collectionClass = null): Collection;
+    public function values(string $collectionClass = null): Collection;
     /** Returns array representation of map */
-    function toArray(): array;
+    public function toArray(): array;
     /**
      * Return the current element
      * @link http://php.net/manual/en/iterator.current.php
      */
-    function current();
+    public function current();
     /**
      * Move forward to next element
      * @link http://php.net/manual/en/iterator.next.php
      */
-    function next(): void;
+    public function next(): void;
     /**
      * Return the key of the current element
      * @link http://php.net/manual/en/iterator.key.php
      */
-    function key();
+    public function key();
     /**
      * Checks if current position is valid
      * @link http://php.net/manual/en/iterator.valid.php
      */
-    function valid(): bool;
+    public function valid(): bool;
     /**
      * Rewind the Iterator to the first element
      * @link http://php.net/manual/en/iterator.rewind.php
      */
-    function rewind(): void;
+    public function rewind(): void;
 }

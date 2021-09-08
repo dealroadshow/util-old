@@ -26,7 +26,8 @@
 namespace Granule\Tests\Util;
 
 use Granule\Util\Enum;
-use Granule\Tests\Util\_fixtures\{Month, Planet};
+use Granule\Tests\Util\_fixtures\Month;
+use Granule\Tests\Util\_fixtures\Planet;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -34,20 +35,27 @@ use PHPUnit\Framework\TestCase;
  * @group enum
  * @coversDefaultClass \Granule\Util\Enum
  */
-class EnumTest extends TestCase {
-
+class EnumTest extends TestCase
+{
     /**
      * @test
      * @covers ::__callStatic
      * @covers ::__construct
      */
-    public function should_be_able_to_get_enum_instance() {
+    public function should_be_able_to_get_enum_instance()
+    {
         $earth = Planet::EARTH();
 
-        $this->assertInstanceOf(Enum::class, $earth,
-            "Returned type on instantiation is incorrect");
-        $this->assertEquals($earth, Planet::EARTH(),
-            "Instantiation shouldn't create object every time");
+        $this->assertInstanceOf(
+            Enum::class,
+            $earth,
+            "Returned type on instantiation is incorrect"
+        );
+        $this->assertEquals(
+            $earth,
+            Planet::EARTH(),
+            "Instantiation shouldn't create object every time"
+        );
         $this->assertNotEquals($earth, Planet::MARS());
     }
 
@@ -56,18 +64,20 @@ class EnumTest extends TestCase {
      * @covers ::__init
      * @covers ::__construct
      */
-    public function should_be_able_to_pass_arguments_to_init_enum() {
-        $this->assertEquals( 5.976e+24, Planet::EARTH()->getMass());
-        $this->assertEquals( 6.37814e6, Planet::EARTH()->getRadius());
-        $this->assertEquals( 1, Month::January()->getPosition());
-        $this->assertEquals( 2, Month::February()->getPosition());
+    public function should_be_able_to_pass_arguments_to_init_enum()
+    {
+        $this->assertEquals(5.976e+24, Planet::EARTH()->getMass());
+        $this->assertEquals(6.37814e6, Planet::EARTH()->getRadius());
+        $this->assertEquals(1, Month::January()->getPosition());
+        $this->assertEquals(2, Month::February()->getPosition());
     }
 
     /**
      * @test
      * @covers ::getValue
      */
-    public function should_return_correct_enum_value() {
+    public function should_return_correct_enum_value()
+    {
         $this->assertEquals('January', Month::January()->getValue());
         $this->assertEquals('EARTH', Planet::EARTH()->getValue());
     }
@@ -76,7 +86,8 @@ class EnumTest extends TestCase {
      * @test
      * @covers ::__clone
      */
-    public function should_not_allow_cloning() {
+    public function should_not_allow_cloning()
+    {
         $this->expectException(\Error::class);
         clone Month::January();
     }
@@ -85,7 +96,8 @@ class EnumTest extends TestCase {
      * @test
      * @covers ::equalTo
      */
-    public function should_be_able_to_check_equality() {
+    public function should_be_able_to_check_equality()
+    {
         $this->assertTrue(Month::January()->equalTo(Month::January()));
         $this->assertTrue(Month::January()->equalTo(Month::January()));
         $this->assertFalse(Month::January()->equalTo(Planet::EARTH()));
@@ -97,7 +109,8 @@ class EnumTest extends TestCase {
      * @test
      * @covers ::hasValue
      */
-    public function should_let_check_if_value_exists() {
+    public function should_let_check_if_value_exists()
+    {
         $this->assertTrue(Month::hasValue('January'));
         $this->assertFalse(Month::hasValue('EARTH'));
     }

@@ -29,21 +29,25 @@ use Granule\Util\Map;
 use Granule\Util\MutableMap;
 use Granule\Util\TypeHelper;
 
-class MutableArrayMap extends ArrayMap implements MutableMap {
+class MutableArrayMap extends ArrayMap implements MutableMap
+{
     /** {@inheritdoc} */
-    public function clear(): void {
+    public function clear(): void
+    {
         $this->elements = [];
     }
 
     /** {@inheritdoc} */
-    public function forEachApply(callable $callback): void {
+    public function forEachApply(callable $callback): void
+    {
         foreach ($this->elements as $key => $value) {
             $callback($value, $key);
         }
     }
 
     /** {@inheritdoc} */
-    public function put($key, $value) {
+    public function put($key, $value)
+    {
         TypeHelper::validateKey($key, $this);
         TypeHelper::validateValue($value, $this);
         $oldValue = null;
@@ -56,21 +60,24 @@ class MutableArrayMap extends ArrayMap implements MutableMap {
     }
 
     /** {@inheritdoc} */
-    public function putAll(Map $map): void {
+    public function putAll(Map $map): void
+    {
         foreach ($map as $key => $value) {
             $this->put($key, $value);
         }
     }
 
     /** {@inheritdoc} */
-    public function putIfAbsent($key, $value): void {
+    public function putIfAbsent($key, $value): void
+    {
         if (!$this->containsKey($key)) {
             $this->put($key, $value);
         }
     }
 
     /** {@inheritdoc} */
-    public function remove($key) {
+    public function remove($key)
+    {
         $value = $this->get($key);
         if ($value !== null) {
             unset($this->elements[$key]);
@@ -80,7 +87,8 @@ class MutableArrayMap extends ArrayMap implements MutableMap {
     }
 
     /** {@inheritdoc} */
-    public function removeIfEqual($key, $value): bool {
+    public function removeIfEqual($key, $value): bool
+    {
         $actualValue = $this->get($key);
         if ($actualValue === $value) {
             unset($this->elements[$key]);
@@ -92,7 +100,8 @@ class MutableArrayMap extends ArrayMap implements MutableMap {
     }
 
     /** {@inheritdoc} */
-    public function replace($key, $value) {
+    public function replace($key, $value)
+    {
         if ($this->containsKey($key)) {
             return $this->put($key, $value);
         } else {
@@ -101,7 +110,8 @@ class MutableArrayMap extends ArrayMap implements MutableMap {
     }
 
     /** {@inheritdoc} */
-    public function replaceIfEqual($key, $oldValue, $newValue): bool {
+    public function replaceIfEqual($key, $oldValue, $newValue): bool
+    {
         $value = $this->get($key);
         if ($oldValue === $value) {
             $this->put($key, $newValue);
@@ -113,7 +123,8 @@ class MutableArrayMap extends ArrayMap implements MutableMap {
     }
 
     /** {@inheritdoc} */
-    public function replaceAll(callable $replacer): void {
+    public function replaceAll(callable $replacer): void
+    {
         foreach ($this as $key => $value) {
             $this->put($key, $replacer($value, $key));
         }

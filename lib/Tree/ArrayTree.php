@@ -27,38 +27,46 @@ namespace Granule\Util\Tree;
 
 use Granule\Util\Tree;
 
-class ArrayTree implements Tree {
+class ArrayTree implements Tree
+{
     /** @var array */
     protected $data;
     /** @var array */
     protected $srcPath = [];
 
-    protected function __construct(array &$data, array $srcPath = []) {
+    protected function __construct(array &$data, array $srcPath = [])
+    {
         $this->data = &$data;
         $this->srcPath = $srcPath;
     }
 
-    public static function fromArray(array $data, array $srcPath = []): ArrayTree {
+    public static function fromArray(array $data, array $srcPath = []): ArrayTree
+    {
         return new static($data, $srcPath);
     }
 
-    public static function fromArrayByReference(array &$data, array $srcPath = []): ArrayTree {
+    public static function fromArrayByReference(array &$data, array $srcPath = []): ArrayTree
+    {
         return new static($data, $srcPath);
     }
 
-    public function key() {
+    public function key()
+    {
         return key($this->data);
     }
 
-    public function next(): void {
+    public function next(): void
+    {
         next($this->data);
     }
 
-    public function valid(): bool {
+    public function valid(): bool
+    {
         return key($this->data) !== null;
     }
 
-    public function current() {
+    public function current()
+    {
         if (!is_array($this->data[$this->key()])) {
             return $this->data[$this->key()];
         }
@@ -69,54 +77,66 @@ class ArrayTree implements Tree {
         return static::fromArrayByReference($this->data[$this->key()], $path);
     }
 
-    public function rewind(): void {
+    public function rewind(): void
+    {
         reset($this->data);
     }
 
-    public function count(): int {
+    public function count(): int
+    {
         return count($this->data);
     }
 
-    public function serialize(): string {
+    public function serialize(): string
+    {
         return serialize($this->data);
     }
 
-    public function unserialize($serialized): ArrayTree {
+    public function unserialize($serialized): ArrayTree
+    {
         return unserialize($serialized);
     }
 
-    public function jsonSerialize(): array {
+    public function jsonSerialize(): array
+    {
         return $this->toArray();
     }
 
-    public function offsetSet($offset, $value): void {
+    public function offsetSet($offset, $value): void
+    {
         throw new \BadMethodCallException('Immutable structure: You are not allowed to change data');
     }
 
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         throw new \BadMethodCallException('Immutable structure: You are not allowed to remove data');
     }
 
-    public function toMutable(): MutableArrayTree {
+    public function toMutable(): MutableArrayTree
+    {
         /** @var MutableArrayTree $collection */
         $collection = MutableArrayTree::fromArrayByReference($this->data, $this->srcPath);
 
         return $collection;
     }
 
-    public function toImmutable(): ArrayTree {
+    public function toImmutable(): ArrayTree
+    {
         return $this;
     }
 
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return $this->data;
     }
 
-    public function hash(): string {
+    public function hash(): string
+    {
         return md5(serialize($this->data));
     }
 
-    public function offsetExists($offset): bool {
+    public function offsetExists($offset): bool
+    {
         $offset = $this->extractKey($offset);
 
         return $this->find($this->data, array_shift($offset), [], $offset, function () {
@@ -126,7 +146,8 @@ class ArrayTree implements Tree {
         });
     }
 
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         $offset = $this->extractKey($offset);
 
         return $this->find($this->data, array_shift($offset), $this->srcPath, $offset, function (&$value, array $path) {
@@ -136,7 +157,8 @@ class ArrayTree implements Tree {
         });
     }
 
-    public function __invoke(string $offset, $default = null) {
+    public function __invoke(string $offset, $default = null)
+    {
         $offset = $this->extractKey($offset);
 
         return $this->find($this->data, array_shift($offset), $this->srcPath, $offset, function (&$value, array $path) {
@@ -170,8 +192,14 @@ class ArrayTree implements Tree {
                         return $onFound($data[$key], $path, $data, $key);
                     } // the value
                 } else {
-                    return $this->find($data[$key], array_shift($next), $path, $next, $onFound,
-                        $onNotFound); // next step
+                    return $this->find(
+                        $data[$key],
+                        array_shift($next),
+                        $path,
+                        $next,
+                        $onFound,
+                        $onNotFound
+                    ); // next step
                 }
             } else {
                 if ($next) {
@@ -194,7 +222,8 @@ class ArrayTree implements Tree {
         return null;
     }
 
-    protected function extractKey(string $key): array {
+    protected function extractKey(string $key): array
+    {
         $key = str_replace('\.', '{{DOT}}', $key, $count);
         $key = explode('.', $key);
 

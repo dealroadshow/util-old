@@ -28,16 +28,19 @@ namespace Granule\Util\Collection;
 use Granule\Util\Collection;
 use Granule\Util\StrictTypedValue;
 
-class ArrayCollection implements Collection {
+class ArrayCollection implements Collection
+{
     protected $elements = [];
 
-    public function __construct(CollectionBuilder $builder) {
+    public function __construct(CollectionBuilder $builder)
+    {
         if ($this instanceof StrictTypedValue) {
             if ($builder instanceof StrictTypedValue) {
                 if ($this->getValueType() !== $builder->getValueType()) {
                     throw new \TypeError(sprintf(
                         'Expected type StrictTypedCollectionBuilder<%s> provided: StrictTypedCollectionBuilder<%s>',
-                        $this->getValueType(), $builder->getValueType()
+                        $this->getValueType(),
+                        $builder->getValueType()
                     ));
                 }
             } else {
@@ -51,7 +54,8 @@ class ArrayCollection implements Collection {
         $this->elements = $builder->getElements();
     }
 
-    public static function builder(): CollectionBuilder {
+    public static function builder(): CollectionBuilder
+    {
         if (is_a(static::class, StrictTypedValue::class, true)) {
             $reflection = new \ReflectionClass(static::class);
             /** @var StrictTypedValue $fake */
@@ -63,7 +67,8 @@ class ArrayCollection implements Collection {
         return new CollectionBuilder(static::class);
     }
 
-    public static function fromArray(array $elements): ArrayCollection {
+    public static function fromArray(array $elements): ArrayCollection
+    {
         $builder = static::builder();
 
         foreach ($elements as $element) {
@@ -76,31 +81,35 @@ class ArrayCollection implements Collection {
     }
 
     /** {@inheritdoc} */
-    public function getIterator(): \Iterator {
+    public function getIterator(): \Iterator
+    {
         return new \ArrayIterator($this->elements);
     }
 
     /** {@inheritdoc} */
-    public function contains($element): bool {
+    public function contains($element): bool
+    {
         $this->validateElement($element);
 
         return in_array($element, $this->elements);
     }
 
     /** {@inheritdoc} */
-    public function containsAll(Collection $collection): bool {
+    public function containsAll(Collection $collection): bool
+    {
         return $collection->toArray()
                == array_uintersect($collection->toArray(), $this->elements, function ($e1, $e2) {
-                if ($e1 == $e2) {
-                    return 0;
-                }
+                   if ($e1 == $e2) {
+                       return 0;
+                   }
 
-                return -1;
-            });
+                   return -1;
+               });
     }
 
     /** {@inheritdoc} */
-    public function equals(Collection $collection): bool {
+    public function equals(Collection $collection): bool
+    {
         if ($this instanceof StrictTypedValue && $collection instanceof StrictTypedValue) {
             if ($this->getValueType() !== $collection->getValueType()) {
                 return false;
@@ -111,22 +120,26 @@ class ArrayCollection implements Collection {
     }
 
     /** {@inheritdoc} */
-    public function isEmpty(): bool {
+    public function isEmpty(): bool
+    {
         return $this->count() === 0;
     }
 
     /** {@inheritdoc} */
-    public function count(): int {
+    public function count(): int
+    {
         return count($this->elements);
     }
 
     /** {@inheritdoc} */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return $this->elements;
     }
 
     /** {@inheritdoc} */
-    public function get(int $index) {
+    public function get(int $index)
+    {
         if ($this->offsetExists($index)) {
             return $this->elements[$index];
         }
@@ -135,7 +148,8 @@ class ArrayCollection implements Collection {
     }
 
     /** {@inheritdoc} */
-    public function indexOf($element): ?int {
+    public function indexOf($element): ?int
+    {
         $this->validateElement($element);
         $value = array_search($element, $this->elements, true);
 
@@ -143,7 +157,8 @@ class ArrayCollection implements Collection {
     }
 
     /** {@inheritdoc} */
-    public function offsetExists($offset): bool {
+    public function offsetExists($offset): bool
+    {
         if (!is_integer($offset)) {
             throw new \TypeError(
                 sprintf('Expected integer type, provided: %s', gettype($offset))
@@ -154,26 +169,31 @@ class ArrayCollection implements Collection {
     }
 
     /** {@inheritdoc} */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return $this->get($offset);
     }
 
     /** {@inheritdoc} */
-    public function offsetSet($offset, $value): void {
+    public function offsetSet($offset, $value): void
+    {
         throw new \BadMethodCallException('Unable to change immutable collection');
     }
 
     /** {@inheritdoc} */
-    public function offsetUnset($offset): void {
+    public function offsetUnset($offset): void
+    {
         throw new \BadMethodCallException('Unable to change immutable collection');
     }
 
     /** {@inheritdoc} */
-    public function hash(): string {
+    public function hash(): string
+    {
         return md5(serialize($this));
     }
 
-    protected function validateElement($element): void {
+    protected function validateElement($element): void
+    {
         if (($this instanceof StrictTypedValue) && ($type = $this->getValueType())) {
             if (!is_a($element, $type)) {
                 $actualType = is_object($element)

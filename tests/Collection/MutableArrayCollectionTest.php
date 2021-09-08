@@ -36,8 +36,10 @@ use Granule\Util\Collection\MutableArrayCollection;
  * @group collection
  * @coversDefaultClass MutableArrayCollection
  */
-class MutableArrayCollectionTest extends TestCase {
-    public function provider(): array {
+class MutableArrayCollectionTest extends TestCase
+{
+    public function provider(): array
+    {
         return [
             [
                 [
@@ -58,7 +60,8 @@ class MutableArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|MutableDateCollection $class
      */
-    public function it_should_be_able_to_add_element(array $fixture, string $class): void {
+    public function it_should_be_able_to_add_element(array $fixture, string $class): void
+    {
         /** @var MutableCollection $collection */
         $collection = $class::fromArray($fixture);
         $newElement = new \DateTime('10-12-2017');
@@ -79,7 +82,8 @@ class MutableArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|MutableDateCollection $class
      */
-    public function it_should_not_be_able_to_add_element_with_wrong_type(array $fixture, string $class): void {
+    public function it_should_not_be_able_to_add_element_with_wrong_type(array $fixture, string $class): void
+    {
         $this->expectException(\TypeError::class);
         $this->expectExceptionMessage("Expected type DateTime provided: DateTimeImmutable");
         /** @var MutableCollection $collection */
@@ -96,7 +100,8 @@ class MutableArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|MutableDateCollection $class
      */
-    public function it_should_be_able_to_add_collection_of_elements(array $fixture, string $class): void {
+    public function it_should_be_able_to_add_collection_of_elements(array $fixture, string $class): void
+    {
         /** @var MutableCollection $collection */
         $collection = $class::fromArray($fixture);
         $newElements = ArrayCollection::fromArray([
@@ -122,7 +127,8 @@ class MutableArrayCollectionTest extends TestCase {
      * @param string|MutableDateCollection $class
      */
     public function it_should_not_be_able_to_add_collection_with_wrong_element_type(
-        array $fixture, string $class
+        array $fixture,
+        string $class
     ): void {
         $this->expectExceptionMessage("Expected type DateTime provided: DateTimeImmutable");
         $this->expectException(\TypeError::class);
@@ -144,7 +150,8 @@ class MutableArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|MutableDateCollection $class
      */
-    public function it_should_be_able_to_clear_collection(array $fixture, string $class): void {
+    public function it_should_be_able_to_clear_collection(array $fixture, string $class): void
+    {
         /** @var MutableCollection $collection */
         $collection = $class::fromArray($fixture);
 
@@ -163,7 +170,8 @@ class MutableArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|MutableDateCollection $class
      */
-    public function it_should_be_able_to_remove_element(array $fixture, string $class): void {
+    public function it_should_be_able_to_remove_element(array $fixture, string $class): void
+    {
         /** @var MutableCollection $collection */
         $collection = $class::fromArray($fixture);
         $values = array_values($fixture);
@@ -193,7 +201,8 @@ class MutableArrayCollectionTest extends TestCase {
      * @param string|MutableDateCollection $class
      */
     public function it_should_throw_exception_on_removing_element_having_wrong_type(
-        array $fixture, string $class
+        array $fixture,
+        string $class
     ): void {
         $this->expectExceptionMessage("Expected type DateTime provided: DateTimeImmutable");
         $this->expectException(\TypeError::class);
@@ -212,7 +221,8 @@ class MutableArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|MutableDateCollection $class
      */
-    public function it_should_be_able_to_remove_all_elements(array $fixture, string $class): void {
+    public function it_should_be_able_to_remove_all_elements(array $fixture, string $class): void
+    {
         /** @var MutableCollection $collection */
         $collection = $class::fromArray($fixture);
         /** @var MutableCollection $collection */
@@ -235,7 +245,8 @@ class MutableArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|MutableDateCollection $class
      */
-    public function it_should_be_able_to_remove_elements_by_condition(array $fixture, string $class): void {
+    public function it_should_be_able_to_remove_elements_by_condition(array $fixture, string $class): void
+    {
         /** @var MutableCollection $collection */
         $collection = $class::fromArray($fixture);
         $values = array_values($fixture);
@@ -260,7 +271,8 @@ class MutableArrayCollectionTest extends TestCase {
      * @param array $fixture
      * @param string|MutableDateCollection $class
      */
-    public function it_should_be_able_to_reatain_elements(array $fixture, string $class): void {
+    public function it_should_be_able_to_reatain_elements(array $fixture, string $class): void
+    {
         /** @var MutableCollection $collection */
         $collection = $class::fromArray($fixture);
         $values = array_values($fixture);

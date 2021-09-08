@@ -28,8 +28,10 @@ namespace Granule\Tests\Util\Map\_fixtures;
 use Granule\Util\Map\ArrayMap;
 use Granule\Util\StrictTypedValue;
 
-class DateMap extends ArrayMap implements StrictTypedValue {
-    public function getValueType(): string {
+class DateMap extends ArrayMap implements StrictTypedValue
+{
+    public function getValueType(): string
+    {
         return \DateTimeImmutable::class;
     }
 }

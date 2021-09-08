@@ -32,11 +32,13 @@ use Granule\Util\StrictTypedValue;
 use Granule\Util\TypeHelper;
 use SplObjectStorage;
 
-class ObjectMap implements Map {
+class ObjectMap implements Map
+{
     /** @var SplObjectStorage */
     protected $elements;
 
-    protected function __construct(SplObjectStorage $elements) {
+    protected function __construct(SplObjectStorage $elements)
+    {
         $this->elements = $elements;
     }
 
@@ -45,18 +47,21 @@ class ObjectMap implements Map {
      *
      * @return static
      */
-    public static function fromStorage(SplObjectStorage $elements) {
+    public static function fromStorage(SplObjectStorage $elements)
+    {
         return new static($elements);
     }
 
     /**
      * @return static
      */
-    public static function createEmpty() {
+    public static function createEmpty()
+    {
         return new static(new SplObjectStorage());
     }
 
-    public static function builder(): MapBuilder {
+    public static function builder(): MapBuilder
+    {
         $valueType = null;
         $reflection = new \ReflectionClass(static::class);
         $fake = $reflection->newInstanceWithoutConstructor();
@@ -70,32 +75,38 @@ class ObjectMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function current() {
+    public function current()
+    {
         return $this->elements->getInfo();
     }
 
     /** {@inheritdoc} */
-    public function next(): void {
+    public function next(): void
+    {
         $this->elements->next();
     }
 
     /** {@inheritdoc} */
-    public function key() {
+    public function key()
+    {
         return $this->elements->current();
     }
 
     /** {@inheritdoc} */
-    public function valid(): bool {
+    public function valid(): bool
+    {
         return $this->elements->valid();
     }
 
     /** {@inheritdoc} */
-    public function rewind(): void {
+    public function rewind(): void
+    {
         $this->elements->rewind();
     }
 
     /** {@inheritdoc} */
-    public function containsKey($key): bool {
+    public function containsKey($key): bool
+    {
         TypeHelper::validateKey($key, $this);
 
         return $this->elements->contains($key);
@@ -105,7 +116,8 @@ class ObjectMap implements Map {
      * {@inheritdoc}
      * @deprecated Don't use as it a heavy one (because of @see \SplObjectStorage)
      */
-    public function containsValue($value): bool {
+    public function containsValue($value): bool
+    {
         TypeHelper::validateValue($value, $this);
         foreach ($this as $v) {
             if ($value == $v) {
@@ -117,7 +129,8 @@ class ObjectMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function equals(Map $map): bool {
+    public function equals(Map $map): bool
+    {
         if ($map instanceof ObjectMap) {
             return $map->hash() === $this->hash();
         }
@@ -126,7 +139,8 @@ class ObjectMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function filter(callable $filter): Map {
+    public function filter(callable $filter): Map
+    {
         $newElements = new SplObjectStorage();
         foreach ($this as $key => $element) {
             if ($filter($element, $key)) {
@@ -138,7 +152,8 @@ class ObjectMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function get($key) {
+    public function get($key)
+    {
         if ($this->containsKey($key)) {
             return $this->elements[$key];
         }
@@ -147,7 +162,8 @@ class ObjectMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function getOrDefault($key, $defaultValue) {
+    public function getOrDefault($key, $defaultValue)
+    {
         TypeHelper::validateKey($key, $this);
         TypeHelper::validateValue($defaultValue, $this);
         if ($this->containsKey($key)) {
@@ -158,12 +174,14 @@ class ObjectMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function isEmpty(): bool {
+    public function isEmpty(): bool
+    {
         return $this->count() === 0;
     }
 
     /** {@inheritdoc} */
-    public function keys(): array {
+    public function keys(): array
+    {
         $keys = [];
         foreach ($this as $key => $value) {
             $keys[] = $key;
@@ -173,12 +191,14 @@ class ObjectMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function count(): int {
+    public function count(): int
+    {
         return $this->elements->count();
     }
 
     /** {@inheritdoc} */
-    public function values(string $collectionClass = null): Collection {
+    public function values(string $collectionClass = null): Collection
+    {
         return call_user_func([
             $collectionClass ?: Collection\ArrayCollection::class,
             'fromArray'
@@ -186,7 +206,8 @@ class ObjectMap implements Map {
     }
 
     /** {@inheritdoc} */
-    public function toArray(): array {
+    public function toArray(): array
+    {
         $values = [];
         foreach ($this as $value) {
             $values[] = $value;
@@ -195,32 +216,38 @@ class ObjectMap implements Map {
         return $values;
     }
 
-    public function toStorage(): \SplObjectStorage {
+    public function toStorage(): \SplObjectStorage
+    {
         return $this->elements;
     }
 
     /** {@inheritdoc} */
-    public function hash(): string {
+    public function hash(): string
+    {
         return md5(serialize($this->elements));
     }
 
     /** {@inheritdoc} */
-    public function offsetExists($offset): bool {
+    public function offsetExists($offset): bool
+    {
         return $this->elements->offsetExists($offset);
     }
 
     /** {@inheritdoc} */
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return $this->elements->offsetGet($offset);
     }
 
     /** {@inheritdoc} */
-    public function offsetSet($offset, $value): void {
+    public function offsetSet($offset, $value): void
+    {
         throw new \BadMethodCallException('Unable to change immutable map');
     }
 
     /** {@inheritdoc} */
-    public function offsetUnset($offset): void {
+    public function offsetUnset($offset): void
+    {
         throw new \BadMethodCallException('Unable to change immutable map');
     }
 }
