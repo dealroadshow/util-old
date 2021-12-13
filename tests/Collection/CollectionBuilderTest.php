@@ -32,7 +32,7 @@ class CollectionBuilderTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array  $fixture
+     * @param array                  $fixture
      * @param string|ArrayCollection $class
      *
      */
@@ -59,7 +59,7 @@ class CollectionBuilderTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array  $fixture
+     * @param array                  $fixture
      * @param string|ArrayCollection $class
      * @paran $class
      *
@@ -88,7 +88,7 @@ class CollectionBuilderTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array  $fixture
+     * @param array                  $fixture
      * @param string|ArrayCollection $class
      *
      */

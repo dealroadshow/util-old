@@ -57,7 +57,7 @@ class MutableArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                        $fixture
      * @param string|MutableDateCollection $class
      */
     public function it_should_be_able_to_add_element(array $fixture, string $class): void
@@ -79,7 +79,7 @@ class MutableArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                        $fixture
      * @param string|MutableDateCollection $class
      */
     public function it_should_not_be_able_to_add_element_with_wrong_type(array $fixture, string $class): void
@@ -97,7 +97,7 @@ class MutableArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                        $fixture
      * @param string|MutableDateCollection $class
      */
     public function it_should_be_able_to_add_collection_of_elements(array $fixture, string $class): void
@@ -123,7 +123,7 @@ class MutableArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                        $fixture
      * @param string|MutableDateCollection $class
      */
     public function it_should_not_be_able_to_add_collection_with_wrong_element_type(
@@ -147,7 +147,7 @@ class MutableArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                        $fixture
      * @param string|MutableDateCollection $class
      */
     public function it_should_be_able_to_clear_collection(array $fixture, string $class): void
@@ -167,7 +167,7 @@ class MutableArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                        $fixture
      * @param string|MutableDateCollection $class
      */
     public function it_should_be_able_to_remove_element(array $fixture, string $class): void
@@ -197,7 +197,7 @@ class MutableArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                        $fixture
      * @param string|MutableDateCollection $class
      */
     public function it_should_throw_exception_on_removing_element_having_wrong_type(
@@ -218,7 +218,7 @@ class MutableArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                        $fixture
      * @param string|MutableDateCollection $class
      */
     public function it_should_be_able_to_remove_all_elements(array $fixture, string $class): void
@@ -242,7 +242,7 @@ class MutableArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                        $fixture
      * @param string|MutableDateCollection $class
      */
     public function it_should_be_able_to_remove_elements_by_condition(array $fixture, string $class): void
@@ -253,9 +253,11 @@ class MutableArrayCollectionTest extends TestCase
         $timestamp = (new \DateTime('12-12-2012'))->getTimestamp();
 
         $this->assertEquals(3, $collection->count());
-        $this->assertTrue($collection->removeIf(function (\DateTime $datetime, int $index) use ($timestamp) {
-            return $datetime->getTimestamp() > $timestamp;
-        }));
+        $this->assertTrue(
+            $collection->removeIf(function (\DateTime $datetime, int $index) use ($timestamp) {
+                return $datetime->getTimestamp() > $timestamp;
+            })
+        );
 
         $this->assertEquals(1, $collection->count());
         $this->assertFalse($collection->contains($values[0]));
@@ -268,7 +270,7 @@ class MutableArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                        $fixture
      * @param string|MutableDateCollection $class
      */
     public function it_should_be_able_to_reatain_elements(array $fixture, string $class): void

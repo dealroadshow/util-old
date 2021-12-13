@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * MIT License
  *
  * Copyright (c) 2017 Eugene Bogachov
@@ -165,7 +166,8 @@ class ArrayTree implements Tree
             if (is_array($value)) {
                 return static::fromArrayByReference($value, $path);
             } else {
-                //TODO: This is example of check which we can add here for safety, it will limit names of parameter which can be used. Need to discus
+                //TODO: This is example of check which we can add here for safety,
+                // it will limit names of parameter which can be used. Need to discus
                 //if (function_exists($value)) {
                 //    throw new \Exception('Restricted invoke of real function by similar property name');
                 //}
@@ -177,10 +179,10 @@ class ArrayTree implements Tree
     }
 
     protected function find(
-        array    &$data,
-        string   $key,
-        array    $path,
-        array    $next,
+        array &$data,
+        string $key,
+        array $path,
+        array $next,
         \Closure $onFound = null,
         \Closure $onNotFound = null
     ) {

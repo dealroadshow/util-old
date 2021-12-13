@@ -57,7 +57,7 @@ class ArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                 $fixture
      * @param string|DateCollection $class
      */
     public function it_should_contain_specific_element(array $fixture, string $class): void
@@ -75,7 +75,7 @@ class ArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                 $fixture
      * @param string|DateCollection $class
      */
     public function on_strict_mode_contains_method_should_throw_exception(array $fixture, string $class): void
@@ -92,7 +92,7 @@ class ArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                 $fixture
      * @param string|DateCollection $class
      */
     public function it_should_contain_specific_collection_of_elements(array $fixture, string $class): void
@@ -118,7 +118,7 @@ class ArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                 $fixture
      * @param string|DateCollection $class
      */
     public function it_should_be_able_to_check_equals(array $fixture, string $class): void
@@ -146,7 +146,7 @@ class ArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                 $fixture
      * @param string|DateCollection $class
      */
     public function it_should_be_able_to_check_emptiness(array $fixture, string $class): void
@@ -165,7 +165,7 @@ class ArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                 $fixture
      * @param string|DateCollection $class
      */
     public function it_should_be_countable(array $fixture, string $class): void
@@ -188,7 +188,7 @@ class ArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                  $fixture
      * @param string|ArrayCollection $class
      */
     public function it_should_be_readable(array $fixture, string $class): void
@@ -205,7 +205,7 @@ class ArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                  $fixture
      * @param string|ArrayCollection $class
      */
     public function it_should_throw_exception_when_try_to_read_nonexistent_element(array $fixture, string $class): void
@@ -223,7 +223,7 @@ class ArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                  $fixture
      * @param string|ArrayCollection $class
      */
     public function it_should_be_able_to_get_element_index(array $fixture, string $class): void
@@ -243,7 +243,7 @@ class ArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                  $fixture
      * @param string|ArrayCollection $class
      */
     public function it_should_be_iterable(array $fixture, string $class): void
@@ -266,7 +266,7 @@ class ArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                  $fixture
      * @param string|ArrayCollection $class
      */
     public function it_should_be_array_accessible(array $fixture, string $class): void
@@ -288,7 +288,7 @@ class ArrayCollectionTest extends TestCase
      * @test
      * @dataProvider provider
      *
-     * @param array $fixture
+     * @param array                  $fixture
      * @param string|ArrayCollection $class
      */
     public function it_should_be_hashable(array $fixture, string $class): void

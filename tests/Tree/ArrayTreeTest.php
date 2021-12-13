@@ -110,8 +110,8 @@ class ArrayTreeTest extends TestCase
             $this->assertEquals("var {$index}", $key);
             $this->assertEquals(
                 is_array(self::$data[$key])
-                ? MutableArrayTree::fromArray(self::$data[$key], [$key])
-                : self::$data[$key],
+                    ? MutableArrayTree::fromArray(self::$data[$key], [$key])
+                    : self::$data[$key],
                 $value,
                 sprintf('Key is %s', $key)
             );

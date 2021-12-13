@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * MIT License
  *
  * Copyright (c) 2017 Eugene Bogachov

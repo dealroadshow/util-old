@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * MIT License
  *
  * Copyright (c) 2017 Eugene Bogachov
@@ -44,9 +45,9 @@ class HashMapBuilder
 
     public function __construct(
         callable $hashFunc,
-        string   $mapClass,
-        ?string  $mappingType,
-        ?string  $keyType
+        string $mapClass,
+        ?string $mappingType,
+        ?string $keyType
     ) {
         $this->hashFunc = $hashFunc;
         $this->mapClass = $mapClass;

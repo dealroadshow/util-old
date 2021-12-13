@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * MIT License
  *
  * Copyright (c) 2017 Eugene Bogachov
@@ -49,7 +50,7 @@ abstract class Enum
 {
     /** @var string */
     private $value;
-    /** @var Enum[][]  */
+    /** @var Enum[][] */
     private static $pool = [];
 
     final private function __construct(string $value, array $arguments = null)

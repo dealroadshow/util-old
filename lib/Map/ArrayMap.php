@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * MIT License
  *
  * Copyright (c) 2017 Eugene Bogachov
@@ -56,8 +57,9 @@ class ArrayMap implements Map
     public static function builder(): MapBuilder
     {
         $keyType = $valueType = null;
-        if (is_a(static::class, StrictTypedKey::class, true)
-                || is_a(static::class, StrictTypedValue::class, true)
+        if (
+            is_a(static::class, StrictTypedKey::class, true)
+            || is_a(static::class, StrictTypedValue::class, true)
         ) {
             $reflection = new \ReflectionClass(static::class);
             $fake = $reflection->newInstanceWithoutConstructor();
@@ -96,11 +98,13 @@ class ArrayMap implements Map
     /** {@inheritdoc} */
     public function filter(callable $filter): Map
     {
-        return static::fromArray(array_filter(
-            $this->elements,
-            $filter,
-            ARRAY_FILTER_USE_BOTH
-        ));
+        return static::fromArray(
+            array_filter(
+                $this->elements,
+                $filter,
+                ARRAY_FILTER_USE_BOTH
+            )
+        );
     }
 
     /** {@inheritdoc} */
@@ -147,7 +151,8 @@ class ArrayMap implements Map
     public function values(string $collectionClass = null): Collection
     {
         return call_user_func([
-            $collectionClass ?: ArrayCollection::class, 'fromArray'
+            $collectionClass ?: ArrayCollection::class,
+            'fromArray'
         ], $this->toArray());
     }
 

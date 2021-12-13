@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * MIT License
  *
  * Copyright (c) 2017 Eugene Bogachov
@@ -37,17 +38,21 @@ class ArrayCollection implements Collection
         if ($this instanceof StrictTypedValue) {
             if ($builder instanceof StrictTypedValue) {
                 if ($this->getValueType() !== $builder->getValueType()) {
-                    throw new \TypeError(sprintf(
-                        'Expected type StrictTypedCollectionBuilder<%s> provided: StrictTypedCollectionBuilder<%s>',
-                        $this->getValueType(),
-                        $builder->getValueType()
-                    ));
+                    throw new \TypeError(
+                        sprintf(
+                            'Expected type StrictTypedCollectionBuilder<%s> provided: StrictTypedCollectionBuilder<%s>',
+                            $this->getValueType(),
+                            $builder->getValueType()
+                        )
+                    );
                 }
             } else {
-                throw new \TypeError(sprintf(
-                    'Expected type StrictTypedCollectionBuilder<%s> provided: CollectionBuilder<...>',
-                    $this->getValueType()
-                ));
+                throw new \TypeError(
+                    sprintf(
+                        'Expected type StrictTypedCollectionBuilder<%s> provided: CollectionBuilder<...>',
+                        $this->getValueType()
+                    )
+                );
             }
         }
 
@@ -97,14 +102,13 @@ class ArrayCollection implements Collection
     /** {@inheritdoc} */
     public function containsAll(Collection $collection): bool
     {
-        return $collection->toArray()
-               == array_uintersect($collection->toArray(), $this->elements, function ($e1, $e2) {
-                   if ($e1 == $e2) {
-                       return 0;
-                   }
+        return $collection->toArray() == array_uintersect($collection->toArray(), $this->elements, function ($e1, $e2) {
+            if ($e1 == $e2) {
+                return 0;
+            }
 
-                   return -1;
-               });
+            return -1;
+        });
     }
 
     /** {@inheritdoc} */

@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * MIT License
  *
  * Copyright (c) 2017 Eugene Bogachov
@@ -59,6 +60,7 @@ abstract class HashMap implements Map
             /** @var StrictTypedKey $fake */
             $keyType = $fake->getKeyType();
         }
+
         /** @var HashMap $fake */
         return new HashMapBuilder(function ($k) use ($fake) {
             return $fake->getKeyHash($k);

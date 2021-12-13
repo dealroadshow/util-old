@@ -1,5 +1,6 @@
 <?php
-/*
+
+/**
  * MIT License
  *
  * Copyright (c) 2017 Eugene Bogachov
@@ -45,11 +46,13 @@ final class TypeHelper
     public static function validate($cause, string $expectedType): void
     {
         if (!self::hasType($cause, $expectedType)) {
-            throw new \TypeError(sprintf(
-                'Expected type %s provided: %s',
-                $expectedType,
-                self::getType($cause)
-            ));
+            throw new \TypeError(
+                sprintf(
+                    'Expected type %s provided: %s',
+                    $expectedType,
+                    self::getType($cause)
+                )
+            );
         }
     }
 

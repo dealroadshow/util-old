@@ -1,12 +1,12 @@
-#Release notes 
+# Release notes
 
 ## v0.3.6
 
-###Bug fixes 
+### Bug fixes
 
 * Fixed namespaces in files:
     * util/lib/Map/MutableArrayMap.php
-    * util/lib/Map/MapBuilder.php 
+    * util/lib/Map/MapBuilder.php
 
 # Static analyzer (psalm)
 
