@@ -1,6 +1,5 @@
 <?php
-
-/**
+/*
  * MIT License
  *
  * Copyright (c) 2017 Eugene Bogachov
@@ -48,10 +47,9 @@ use Granule\Util\Exception\InvalidEnumValueException;
  */
 abstract class Enum
 {
-    /** @var string */
-    private $value;
+    private string $value;
     /** @var Enum[][] */
-    private static $pool = [];
+    private static array $pool = [];
 
     final private function __construct(string $value, array $arguments = null)
     {
@@ -77,10 +75,7 @@ abstract class Enum
                && $this->getValue() === $another->getValue();
     }
 
-    /**
-     * @return static
-     */
-    final public static function __callStatic(string $name, $_)
+    final public static function __callStatic(string $name, $_): static
     {
         $arguments = self::getConstantArguments($name);
         if (!$arguments) {
@@ -98,10 +93,7 @@ abstract class Enum
         return self::$pool[static::class][$name];
     }
 
-    /**
-     * @return static
-     */
-    public static function fromValue(string $value)
+    public static function fromValue(string $value): static
     {
         return self::__callStatic($value, []);
     }

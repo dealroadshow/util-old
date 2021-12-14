@@ -1,6 +1,5 @@
 <?php
-
-/**
+/*
  * MIT License
  *
  * Copyright (c) 2017 Eugene Bogachov
@@ -32,13 +31,14 @@ use Granule\Util\Map;
 use Granule\Util\StrictTypedKey;
 use Granule\Util\StrictTypedValue;
 use Granule\Util\TypeHelper;
+use ReflectionClass;
 
 abstract class HashMap implements Map
 {
     /** @var mixed[] */
-    protected $keys = [];
+    protected array $keys = [];
     /** @var mixed[] */
-    protected $values = [];
+    protected array $values = [];
 
     public function __construct(HashMapBuilder $builder)
     {
@@ -49,7 +49,7 @@ abstract class HashMap implements Map
     public static function builder(): HashMapBuilder
     {
         $keyType = $valueType = null;
-        $reflection = new \ReflectionClass(static::class);
+        $reflection = new ReflectionClass(static::class);
         $fake = $reflection->newInstanceWithoutConstructor();
 
         if (is_a(static::class, StrictTypedValue::class, true)) {

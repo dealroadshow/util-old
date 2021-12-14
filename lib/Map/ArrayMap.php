@@ -1,6 +1,5 @@
 <?php
-
-/**
+/*
  * MIT License
  *
  * Copyright (c) 2017 Eugene Bogachov
@@ -26,17 +25,19 @@
 
 namespace Granule\Util\Map;
 
+use BadMethodCallException;
 use Granule\Util\Collection;
 use Granule\Util\Collection\ArrayCollection;
 use Granule\Util\Map;
 use Granule\Util\StrictTypedKey;
 use Granule\Util\StrictTypedValue;
 use Granule\Util\TypeHelper;
+use ReflectionException;
 
 class ArrayMap implements Map
 {
     /** @var object[] */
-    protected $elements = [];
+    protected array $elements = [];
 
     public function __construct(MapBuilder $builder)
     {
@@ -162,7 +163,6 @@ class ArrayMap implements Map
         return $this->elements;
     }
 
-    /** {@inheritdoc} */
     public function hash(): string
     {
         return md5(serialize($this->elements));
@@ -183,13 +183,13 @@ class ArrayMap implements Map
     /** {@inheritdoc} */
     public function offsetSet($offset, $value): void
     {
-        throw new \BadMethodCallException('Unable to change immutable map');
+        throw new BadMethodCallException('Unable to change immutable map');
     }
 
     /** {@inheritdoc} */
     public function offsetUnset($offset): void
     {
-        throw new \BadMethodCallException('Unable to change immutable map');
+        throw new BadMethodCallException('Unable to change immutable map');
     }
 
     /** {@inheritdoc} */
