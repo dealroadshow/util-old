@@ -31,7 +31,7 @@ use Granule\Util\StrictTypedKey;
 //--------------------------------
 // The use state below produced breaking change, when builder() produced map validation (line 73) was never executed
 // before and silently started to work. It will be fixed back after preparing client codebase to map value validation
-// in ### ticket context.
+// in https://finsight.myjetbrains.com/youtrack/issue/FIN-13408 ticket context.
 //use Granule\Util\StrictTypedValue;
 //--------------------------------
 use Granule\Util\TypeHelper;
