@@ -179,7 +179,7 @@ class ArrayCollection implements Collection
     }
 
     /** {@inheritdoc} */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
     }

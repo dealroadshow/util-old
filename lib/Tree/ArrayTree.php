@@ -50,7 +50,7 @@ class ArrayTree implements Tree
         return new static($data, $srcPath);
     }
 
-    public function key()
+    public function key(): mixed
     {
         return key($this->data);
     }
@@ -65,7 +65,7 @@ class ArrayTree implements Tree
         return key($this->data) !== null;
     }
 
-    public function current()
+    public function current(): mixed
     {
         if (!is_array($this->data[$this->key()])) {
             return $this->data[$this->key()];
@@ -92,9 +92,9 @@ class ArrayTree implements Tree
         return serialize($this->data);
     }
 
-    public function unserialize($serialized): ArrayTree
+    public function unserialize($data): ArrayTree
     {
-        return unserialize($serialized);
+        return unserialize($data);
     }
 
     public function jsonSerialize(): array
@@ -107,7 +107,7 @@ class ArrayTree implements Tree
         throw new BadMethodCallException('Immutable structure: You are not allowed to change data');
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         throw new BadMethodCallException('Immutable structure: You are not allowed to remove data');
     }
@@ -143,7 +143,7 @@ class ArrayTree implements Tree
         });
     }
 
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         $offset = $this->extractKey($offset);
 
@@ -232,5 +232,15 @@ class ArrayTree implements Tree
         }
 
         return $key;
+    }
+
+    public function __serialize(): array
+    {
+        throw new \BadMethodCallException('Not Implemented method');
+    }
+
+    public function __unserialize(array $data): void
+    {
+        throw new \BadMethodCallException('Not Implemented method');
     }
 }

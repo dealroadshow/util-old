@@ -175,7 +175,7 @@ class ArrayMap implements Map
     }
 
     /** {@inheritdoc} */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
     }
@@ -193,7 +193,7 @@ class ArrayMap implements Map
     }
 
     /** {@inheritdoc} */
-    public function current()
+    public function current(): mixed
     {
         return current($this->elements);
     }
@@ -205,7 +205,7 @@ class ArrayMap implements Map
     }
 
     /** {@inheritdoc} */
-    public function key()
+    public function key(): mixed
     {
         return key($this->elements);
     }

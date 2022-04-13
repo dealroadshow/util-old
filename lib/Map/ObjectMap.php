@@ -64,17 +64,17 @@ class ObjectMap implements Map
         $valueType = null;
         $reflection = new ReflectionClass(static::class);
         $fake = $reflection->newInstanceWithoutConstructor();
-        if (is_a(static::class, StrictTypedValue::class, true)) {
-            /** @var StrictTypedValue $fake */
-            $valueType = $fake->getValueType();
-        }
+        //if (is_a(static::class, StrictTypedValue::class, true)) {
+        //    /** @var StrictTypedValue $fake */
+        //    $valueType = $fake->getValueType();
+        //}
 
         /** @var StrictTypedKey $fake */
         return new ObjectMapBuilder(static::class, $valueType, $fake->getKeyType());
     }
 
     /** {@inheritdoc} */
-    public function current()
+    public function current(): mixed
     {
         return $this->elements->getInfo();
     }
@@ -86,7 +86,7 @@ class ObjectMap implements Map
     }
 
     /** {@inheritdoc} */
-    public function key()
+    public function key(): mixed
     {
         return $this->elements->current();
     }

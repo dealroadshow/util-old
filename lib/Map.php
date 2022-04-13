@@ -67,7 +67,7 @@ interface Map extends \Iterator, \Countable, \ArrayAccess, Hashable
      *
      * @link http://php.net/manual/en/iterator.current.php
      */
-    public function current();
+    public function current(): mixed;
 
     /**
      * Move forward to next element
@@ -81,7 +81,7 @@ interface Map extends \Iterator, \Countable, \ArrayAccess, Hashable
      *
      * @link http://php.net/manual/en/iterator.key.php
      */
-    public function key();
+    public function key(): mixed;
 
     /**
      * Checks if current position is valid
