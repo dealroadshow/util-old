@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="4.22.0@fc2c6ab4d5fa5d644d8617089f012f3bb84b8703">
+<files psalm-version="4.23.0@f1fe6ff483bf325c803df9f510d09a03fd796f88">
   <file src="lib/Collection/ArrayCollection.php">
     <NotStrictEqualSign occurrences="3">
       <code>$e1 == $e2</code>
       <code>$this-&gt;toArray() == $collection-&gt;toArray()</code>
     </NotStrictEqualSign>
+  </file>
+  <file src="lib/Enum.php">
+    <UnusedParam occurrences="1">
+      <code>$arguments</code>
+    </UnusedParam>
   </file>
   <file src="lib/Map/ArrayMap.php">
     <NotStrictEqualSign occurrences="1">
@@ -15,13 +20,6 @@
     <NotStrictEqualSign occurrences="1">
       <code>$value == $v</code>
     </NotStrictEqualSign>
-    <UndefinedClass occurrences="1">
-      <code>StrictTypedValue</code>
-    </UndefinedClass>
-    <UndefinedDocblockClass occurrences="2">
-      <code>$fake</code>
-      <code>$valueType</code>
-    </UndefinedDocblockClass>
     <UnusedForeachValue occurrences="1">
       <code>$value</code>
     </UnusedForeachValue>

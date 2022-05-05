@@ -33,7 +33,7 @@ final class TypeHelper
     }
 
     /** @psalm-suppress UnusedConstructor */
-    private function __clone(): void
+    private function __clone()
     {
     }
 

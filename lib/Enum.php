@@ -60,7 +60,7 @@ abstract class Enum
         }
     }
 
-    private function __clone(): void
+    private function __clone()
     {
     }
 
