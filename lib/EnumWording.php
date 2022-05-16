@@ -36,7 +36,7 @@ abstract class EnumWording extends Enum implements Hashable
         return in_array($wording, self::getValues(), $strict);
     }
 
-    public static function fromWording(string $wording)
+    public static function fromWording(string $wording): static
     {
         foreach (self::getValues() as $key => $value) {
             if ($value === $wording) {
