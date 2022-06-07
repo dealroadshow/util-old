@@ -11,6 +11,14 @@
       <code>$arguments</code>
     </UnusedParam>
   </file>
+  <file src="lib/EnumWording.php">
+    <LessSpecificReturnStatement occurrences="1">
+      <code>self::fromValue($key)</code>
+    </LessSpecificReturnStatement>
+    <MoreSpecificReturnType occurrences="1">
+      <code>static</code>
+    </MoreSpecificReturnType>
+  </file>
   <file src="lib/Map/ArrayMap.php">
     <NotStrictEqualSign occurrences="1">
       <code>$map-&gt;toArray() == $this-&gt;toArray()</code>
