@@ -25,18 +25,19 @@
 
 namespace Granule\Util\Map;
 
+use BadMethodCallException;
 use Granule\Util\Map;
 use Granule\Util\TypeHelper;
+use SplObjectStorage;
 
 class ObjectMapBuilder extends MapBuilder
 {
-    /** @var \SplObjectStorage */
-    protected $items;
+    protected SplObjectStorage $items;
 
     public function __construct($mapClass, $mappingType, $keyType)
     {
         parent::__construct($mapClass, $mappingType, $keyType);
-        $this->items = new \SplObjectStorage();
+        $this->items = new SplObjectStorage();
     }
 
     public function add($key, $value): MapBuilder
@@ -56,7 +57,7 @@ class ObjectMapBuilder extends MapBuilder
 
     public function getElements(): array
     {
-        throw new \BadMethodCallException('Not supported method');
+        throw new BadMethodCallException('Not supported method');
     }
 
     public function build(): Map

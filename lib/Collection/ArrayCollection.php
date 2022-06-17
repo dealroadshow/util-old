@@ -25,29 +25,40 @@
 
 namespace Granule\Util\Collection;
 
+use ArrayIterator;
+use BadMethodCallException;
 use Granule\Util\Collection;
 use Granule\Util\StrictTypedValue;
+use Iterator;
+use OutOfRangeException;
+use ReflectionClass;
+use ReflectionException;
+use TypeError;
 
 class ArrayCollection implements Collection
 {
-    protected $elements = [];
+    protected array $elements = [];
 
     public function __construct(CollectionBuilder $builder)
     {
         if ($this instanceof StrictTypedValue) {
             if ($builder instanceof StrictTypedValue) {
                 if ($this->getValueType() !== $builder->getValueType()) {
-                    throw new \TypeError(sprintf(
-                        'Expected type StrictTypedCollectionBuilder<%s> provided: StrictTypedCollectionBuilder<%s>',
-                        $this->getValueType(),
-                        $builder->getValueType()
-                    ));
+                    throw new TypeError(
+                        sprintf(
+                            'Expected type StrictTypedCollectionBuilder<%s> provided: StrictTypedCollectionBuilder<%s>',
+                            $this->getValueType(),
+                            $builder->getValueType()
+                        )
+                    );
                 }
             } else {
-                throw new \TypeError(sprintf(
-                    'Expected type StrictTypedCollectionBuilder<%s> provided: CollectionBuilder<...>',
-                    $this->getValueType()
-                ));
+                throw new TypeError(
+                    sprintf(
+                        'Expected type StrictTypedCollectionBuilder<%s> provided: CollectionBuilder<...>',
+                        $this->getValueType()
+                    )
+                );
             }
         }
 
@@ -57,7 +68,7 @@ class ArrayCollection implements Collection
     public static function builder(): CollectionBuilder
     {
         if (is_a(static::class, StrictTypedValue::class, true)) {
-            $reflection = new \ReflectionClass(static::class);
+            $reflection = new ReflectionClass(static::class);
             /** @var StrictTypedValue $fake */
             $fake = $reflection->newInstanceWithoutConstructor();
 
@@ -81,9 +92,9 @@ class ArrayCollection implements Collection
     }
 
     /** {@inheritdoc} */
-    public function getIterator(): \Iterator
+    public function getIterator(): Iterator
     {
-        return new \ArrayIterator($this->elements);
+        return new ArrayIterator($this->elements);
     }
 
     /** {@inheritdoc} */
@@ -97,14 +108,13 @@ class ArrayCollection implements Collection
     /** {@inheritdoc} */
     public function containsAll(Collection $collection): bool
     {
-        return $collection->toArray()
-               == array_uintersect($collection->toArray(), $this->elements, function ($e1, $e2) {
-                   if ($e1 == $e2) {
-                       return 0;
-                   }
+        return $collection->toArray() == array_uintersect($collection->toArray(), $this->elements, function ($e1, $e2) {
+            if ($e1 == $e2) {
+                return 0;
+            }
 
-                   return -1;
-               });
+            return -1;
+        });
     }
 
     /** {@inheritdoc} */
@@ -144,7 +154,7 @@ class ArrayCollection implements Collection
             return $this->elements[$index];
         }
 
-        throw new \OutOfRangeException(sprintf('Undefined element by index: %d', $index));
+        throw new OutOfRangeException(sprintf('Undefined element by index: %d', $index));
     }
 
     /** {@inheritdoc} */
@@ -160,7 +170,7 @@ class ArrayCollection implements Collection
     public function offsetExists($offset): bool
     {
         if (!is_integer($offset)) {
-            throw new \TypeError(
+            throw new TypeError(
                 sprintf('Expected integer type, provided: %s', gettype($offset))
             );
         }
@@ -169,7 +179,7 @@ class ArrayCollection implements Collection
     }
 
     /** {@inheritdoc} */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
     }
@@ -177,16 +187,15 @@ class ArrayCollection implements Collection
     /** {@inheritdoc} */
     public function offsetSet($offset, $value): void
     {
-        throw new \BadMethodCallException('Unable to change immutable collection');
+        throw new BadMethodCallException('Unable to change immutable collection');
     }
 
     /** {@inheritdoc} */
     public function offsetUnset($offset): void
     {
-        throw new \BadMethodCallException('Unable to change immutable collection');
+        throw new BadMethodCallException('Unable to change immutable collection');
     }
 
-    /** {@inheritdoc} */
     public function hash(): string
     {
         return md5(serialize($this));
@@ -199,7 +208,8 @@ class ArrayCollection implements Collection
                 $actualType = is_object($element)
                     ? get_class($element)
                     : gettype($element);
-                throw new \TypeError(
+
+                throw new TypeError(
                     sprintf('Expected type %s provided: %s', $type, $actualType)
                 );
             }

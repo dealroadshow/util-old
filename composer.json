@@ -1,31 +1,43 @@
 {
-    "name": "dealroadshow/granule-util",
-    "description": "Granule Utilities fork",
-    "keywords": ["enum", "tree", "array", "data", "collection", "map"],
-    "type": "library",
-    "require": {
-        "php": "^7.1, <8.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9",
-        "vimeo/psalm": "^4.7",
-        "orklah/psalm-insane-comparison": "1.0.3",
-        "marartner/psalm-no-empty": "^1.1",
-         "orklah/psalm-strict-equality": "^0.1.0",
-        "friendsofphp/php-cs-fixer": "^3.0"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Eugene Bogachov",
-            "email": "eugene.bogachov@gmail.com"
-        }
-    ],
-    "minimum-stability": "stable",
-    "autoload": {
-        "psr-4": { "Granule\\Util\\": "lib" }
-    },
-    "autoload-dev": {
-        "psr-4": { "Granule\\Tests\\Util\\": "tests" }
+  "name": "dealroadshow/granule-util",
+  "description": "Granule Utilities fork",
+  "keywords": [
+    "enum",
+    "tree",
+    "array",
+    "data",
+    "collection",
+    "map"
+  ],
+  "type": "library",
+  "require": {
+    "php": ">=8.0.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9",
+    "vimeo/psalm": "^4.23",
+    "orklah/psalm-insane-comparison": "^2.0",
+    "marartner/psalm-no-empty": "^1.1",
+    "orklah/psalm-strict-equality": "^2.0",
+    "friendsofphp/php-cs-fixer": "^3.8"
+  },
+  "prefer-stable": true,
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Eugene Bogachov",
+      "email": "eugene.bogachov@gmail.com"
     }
+  ],
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Granule\\Util\\": "lib"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Granule\\Tests\\Util\\": "tests"
+    }
+  }
 }

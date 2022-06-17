@@ -29,8 +29,7 @@ use Granule\Util\StrictTypedValue;
 
 class StrictTypedCollectionBuilder extends CollectionBuilder implements StrictTypedValue
 {
-    /** @var string */
-    protected $valueType;
+    protected string $valueType;
 
     public function __construct(string $collectionClass, string $valueType)
     {
@@ -41,7 +40,7 @@ class StrictTypedCollectionBuilder extends CollectionBuilder implements StrictTy
     public function add($element): CollectionBuilder
     {
         $type = is_object($element) ? get_class($element) : gettype($element);
-        if (!($this->valueType == $type)) {
+        if (!($this->valueType === $type)) {
             throw new \TypeError(
                 sprintf('Expected type %s provided: %s', $this->valueType, $type)
             );
@@ -49,7 +48,6 @@ class StrictTypedCollectionBuilder extends CollectionBuilder implements StrictTy
 
         return parent::add($element);
     }
-
 
     public function getValueType(): string
     {

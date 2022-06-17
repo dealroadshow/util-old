@@ -25,14 +25,14 @@
 
 namespace Granule\Util\Tree;
 
+use BadMethodCallException;
 use Granule\Util\Tree;
+use OutOfBoundsException;
 
 class ArrayTree implements Tree
 {
-    /** @var array */
-    protected $data;
-    /** @var array */
-    protected $srcPath = [];
+    protected array $data;
+    protected array $srcPath = [];
 
     protected function __construct(array &$data, array $srcPath = [])
     {
@@ -45,12 +45,12 @@ class ArrayTree implements Tree
         return new static($data, $srcPath);
     }
 
-    public static function fromArrayByReference(array &$data, array $srcPath = []): ArrayTree
+    public static function fromArrayByReference(array &$data, array $srcPath = []): static
     {
         return new static($data, $srcPath);
     }
 
-    public function key()
+    public function key(): mixed
     {
         return key($this->data);
     }
@@ -65,7 +65,7 @@ class ArrayTree implements Tree
         return key($this->data) !== null;
     }
 
-    public function current()
+    public function current(): mixed
     {
         if (!is_array($this->data[$this->key()])) {
             return $this->data[$this->key()];
@@ -92,9 +92,9 @@ class ArrayTree implements Tree
         return serialize($this->data);
     }
 
-    public function unserialize($serialized): ArrayTree
+    public function unserialize($data): ArrayTree
     {
-        return unserialize($serialized);
+        return unserialize($data);
     }
 
     public function jsonSerialize(): array
@@ -104,20 +104,17 @@ class ArrayTree implements Tree
 
     public function offsetSet($offset, $value): void
     {
-        throw new \BadMethodCallException('Immutable structure: You are not allowed to change data');
+        throw new BadMethodCallException('Immutable structure: You are not allowed to change data');
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
-        throw new \BadMethodCallException('Immutable structure: You are not allowed to remove data');
+        throw new BadMethodCallException('Immutable structure: You are not allowed to remove data');
     }
 
     public function toMutable(): MutableArrayTree
     {
-        /** @var MutableArrayTree $collection */
-        $collection = MutableArrayTree::fromArrayByReference($this->data, $this->srcPath);
-
-        return $collection;
+        return MutableArrayTree::fromArrayByReference($this->data, $this->srcPath);
     }
 
     public function toImmutable(): ArrayTree
@@ -146,14 +143,14 @@ class ArrayTree implements Tree
         });
     }
 
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         $offset = $this->extractKey($offset);
 
         return $this->find($this->data, array_shift($offset), $this->srcPath, $offset, function (&$value, array $path) {
             return is_array($value) ? static::fromArrayByReference($value, $path) : $value;
         }, function (array $path) {
-            throw new \OutOfBoundsException(sprintf('Element "%s" not found', implode('.', $path)));
+            throw new OutOfBoundsException(sprintf('Element "%s" not found', implode('.', $path)));
         });
     }
 
@@ -165,7 +162,8 @@ class ArrayTree implements Tree
             if (is_array($value)) {
                 return static::fromArrayByReference($value, $path);
             } else {
-                //TODO: This is example of check which we can add here for safety, it will limit names of parameter which can be used. Need to discus
+                //TODO: This is example of check which we can add here for safety,
+                // it will limit names of parameter which can be used. Need to discus
                 //if (function_exists($value)) {
                 //    throw new \Exception('Restricted invoke of real function by similar property name');
                 //}
@@ -177,10 +175,10 @@ class ArrayTree implements Tree
     }
 
     protected function find(
-        array    &$data,
-        string   $key,
-        array    $path,
-        array    $next,
+        array &$data,
+        string $key,
+        array $path,
+        array $next,
         \Closure $onFound = null,
         \Closure $onNotFound = null
     ) {
@@ -234,5 +232,15 @@ class ArrayTree implements Tree
         }
 
         return $key;
+    }
+
+    public function __serialize(): array
+    {
+        throw new \BadMethodCallException('Not Implemented method');
+    }
+
+    public function __unserialize(array $data): void
+    {
+        throw new \BadMethodCallException('Not Implemented method');
     }
 }

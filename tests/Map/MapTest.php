@@ -259,10 +259,10 @@ class MapTest extends TestCase
      * @param bool               $success
      */
     public function it_should_be_able_to_get_value(
-        Map                $map,
+        Map $map,
         \DateTimeInterface $value,
         $key,
-        bool               $success
+        bool $success
     ): void {
         $this->assertEquals($success, $value === $map->get($key));
     }
@@ -291,7 +291,7 @@ class MapTest extends TestCase
      * @param \DateTimeInterface $default
      */
     public function it_should_be_able_to_get_value_with_default(
-        Map                $map,
+        Map $map,
         \DateTimeInterface $value,
         \DateTimeInterface $key,
         \DateTimeInterface $default

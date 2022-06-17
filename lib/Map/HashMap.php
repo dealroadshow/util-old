@@ -25,19 +25,21 @@
 
 namespace Granule\Util\Map;
 
+use BadMethodCallException;
 use Granule\Util\Collection;
 use Granule\Util\Hashable;
 use Granule\Util\Map;
 use Granule\Util\StrictTypedKey;
 use Granule\Util\StrictTypedValue;
 use Granule\Util\TypeHelper;
+use ReflectionClass;
 
 abstract class HashMap implements Map
 {
-    /** @var mixed[] */
-    protected $keys = [];
-    /** @var mixed[] */
-    protected $values = [];
+    /** @var array */
+    protected array $keys = [];
+    /** @var array */
+    protected array $values = [];
 
     public function __construct(HashMapBuilder $builder)
     {
@@ -48,7 +50,7 @@ abstract class HashMap implements Map
     public static function builder(): HashMapBuilder
     {
         $keyType = $valueType = null;
-        $reflection = new \ReflectionClass(static::class);
+        $reflection = new ReflectionClass(static::class);
         $fake = $reflection->newInstanceWithoutConstructor();
 
         if (is_a(static::class, StrictTypedValue::class, true)) {
@@ -59,6 +61,7 @@ abstract class HashMap implements Map
             /** @var StrictTypedKey $fake */
             $keyType = $fake->getKeyType();
         }
+
         /** @var HashMap $fake */
         return new HashMapBuilder(function ($k) use ($fake) {
             return $fake->getKeyHash($k);
@@ -66,7 +69,7 @@ abstract class HashMap implements Map
     }
 
     /** {@inheritdoc} */
-    public function current()
+    public function current(): mixed
     {
         return current($this->values);
     }
@@ -79,7 +82,7 @@ abstract class HashMap implements Map
     }
 
     /** {@inheritdoc} */
-    public function key()
+    public function key(): mixed
     {
         return current($this->keys);
     }
@@ -104,7 +107,7 @@ abstract class HashMap implements Map
     }
 
     /** {@inheritdoc} */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         TypeHelper::validateKey($offset, $this);
 
@@ -112,18 +115,17 @@ abstract class HashMap implements Map
     }
 
     /** {@inheritdoc} */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
-        throw new \BadMethodCallException('Unable to change immutable map');
+        throw new BadMethodCallException('Unable to change immutable map');
     }
 
     /** {@inheritdoc} */
     public function offsetUnset($offset): void
     {
-        throw new \BadMethodCallException('Unable to change immutable map');
+        throw new BadMethodCallException('Unable to change immutable map');
     }
 
-    /** {@inheritdoc} */
     public function hash(): string
     {
         return $this->hashKey($this);

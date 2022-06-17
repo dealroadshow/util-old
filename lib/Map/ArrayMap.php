@@ -25,17 +25,19 @@
 
 namespace Granule\Util\Map;
 
+use BadMethodCallException;
 use Granule\Util\Collection;
 use Granule\Util\Collection\ArrayCollection;
 use Granule\Util\Map;
 use Granule\Util\StrictTypedKey;
 use Granule\Util\StrictTypedValue;
 use Granule\Util\TypeHelper;
+use ReflectionException;
 
 class ArrayMap implements Map
 {
     /** @var object[] */
-    protected $elements = [];
+    protected array $elements = [];
 
     public function __construct(MapBuilder $builder)
     {
@@ -56,8 +58,9 @@ class ArrayMap implements Map
     public static function builder(): MapBuilder
     {
         $keyType = $valueType = null;
-        if (is_a(static::class, StrictTypedKey::class, true)
-                || is_a(static::class, StrictTypedValue::class, true)
+        if (
+            is_a(static::class, StrictTypedKey::class, true)
+            || is_a(static::class, StrictTypedValue::class, true)
         ) {
             $reflection = new \ReflectionClass(static::class);
             $fake = $reflection->newInstanceWithoutConstructor();
@@ -96,11 +99,13 @@ class ArrayMap implements Map
     /** {@inheritdoc} */
     public function filter(callable $filter): Map
     {
-        return static::fromArray(array_filter(
-            $this->elements,
-            $filter,
-            ARRAY_FILTER_USE_BOTH
-        ));
+        return static::fromArray(
+            array_filter(
+                $this->elements,
+                $filter,
+                ARRAY_FILTER_USE_BOTH
+            )
+        );
     }
 
     /** {@inheritdoc} */
@@ -147,7 +152,8 @@ class ArrayMap implements Map
     public function values(string $collectionClass = null): Collection
     {
         return call_user_func([
-            $collectionClass ?: ArrayCollection::class, 'fromArray'
+            $collectionClass ?: ArrayCollection::class,
+            'fromArray'
         ], $this->toArray());
     }
 
@@ -157,7 +163,6 @@ class ArrayMap implements Map
         return $this->elements;
     }
 
-    /** {@inheritdoc} */
     public function hash(): string
     {
         return md5(serialize($this->elements));
@@ -170,7 +175,7 @@ class ArrayMap implements Map
     }
 
     /** {@inheritdoc} */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->get($offset);
     }
@@ -178,17 +183,17 @@ class ArrayMap implements Map
     /** {@inheritdoc} */
     public function offsetSet($offset, $value): void
     {
-        throw new \BadMethodCallException('Unable to change immutable map');
+        throw new BadMethodCallException('Unable to change immutable map');
     }
 
     /** {@inheritdoc} */
     public function offsetUnset($offset): void
     {
-        throw new \BadMethodCallException('Unable to change immutable map');
+        throw new BadMethodCallException('Unable to change immutable map');
     }
 
     /** {@inheritdoc} */
-    public function current()
+    public function current(): mixed
     {
         return current($this->elements);
     }
@@ -200,7 +205,7 @@ class ArrayMap implements Map
     }
 
     /** {@inheritdoc} */
-    public function key()
+    public function key(): mixed
     {
         return key($this->elements);
     }

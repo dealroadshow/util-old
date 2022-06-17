@@ -29,10 +29,8 @@ use Granule\Util\Collection;
 
 class CollectionBuilder
 {
-    /** @var array */
-    protected $elements = [];
-    /** @var string */
-    protected $class;
+    protected array $elements = [];
+    protected string $class;
 
     public function __construct(string $collectionClass)
     {

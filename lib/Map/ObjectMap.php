@@ -25,6 +25,7 @@
 
 namespace Granule\Util\Map;
 
+use BadMethodCallException;
 use Granule\Util\Collection;
 use Granule\Util\Map;
 use Granule\Util\StrictTypedKey;
@@ -35,32 +36,25 @@ use Granule\Util\StrictTypedKey;
 //use Granule\Util\StrictTypedValue;
 //--------------------------------
 use Granule\Util\TypeHelper;
+use ReflectionClass;
+use ReflectionException;
 use SplObjectStorage;
 
 class ObjectMap implements Map
 {
-    /** @var SplObjectStorage */
-    protected $elements;
+    protected SplObjectStorage $elements;
 
     protected function __construct(SplObjectStorage $elements)
     {
         $this->elements = $elements;
     }
 
-    /**
-     * @param \SplObjectStorage $elements
-     *
-     * @return static
-     */
-    public static function fromStorage(SplObjectStorage $elements)
+    public static function fromStorage(SplObjectStorage $elements): static
     {
         return new static($elements);
     }
 
-    /**
-     * @return static
-     */
-    public static function createEmpty()
+    public static function createEmpty(): static
     {
         return new static(new SplObjectStorage());
     }
@@ -68,19 +62,19 @@ class ObjectMap implements Map
     public static function builder(): MapBuilder
     {
         $valueType = null;
-        $reflection = new \ReflectionClass(static::class);
+        $reflection = new ReflectionClass(static::class);
         $fake = $reflection->newInstanceWithoutConstructor();
-        if (is_a(static::class, StrictTypedValue::class, true)) {
-            /** @var StrictTypedValue $fake */
-            $valueType = $fake->getValueType();
-        }
+        //if (is_a(static::class, StrictTypedValue::class, true)) {
+        //    /** @var StrictTypedValue $fake */
+        //    $valueType = $fake->getValueType();
+        //}
 
         /** @var StrictTypedKey $fake */
         return new ObjectMapBuilder(static::class, $valueType, $fake->getKeyType());
     }
 
     /** {@inheritdoc} */
-    public function current()
+    public function current(): mixed
     {
         return $this->elements->getInfo();
     }
@@ -92,7 +86,7 @@ class ObjectMap implements Map
     }
 
     /** {@inheritdoc} */
-    public function key()
+    public function key(): mixed
     {
         return $this->elements->current();
     }
@@ -221,12 +215,11 @@ class ObjectMap implements Map
         return $values;
     }
 
-    public function toStorage(): \SplObjectStorage
+    public function toStorage(): SplObjectStorage
     {
         return $this->elements;
     }
 
-    /** {@inheritdoc} */
     public function hash(): string
     {
         return md5(serialize($this->elements));
@@ -239,7 +232,7 @@ class ObjectMap implements Map
     }
 
     /** {@inheritdoc} */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->elements->offsetGet($offset);
     }
@@ -247,12 +240,12 @@ class ObjectMap implements Map
     /** {@inheritdoc} */
     public function offsetSet($offset, $value): void
     {
-        throw new \BadMethodCallException('Unable to change immutable map');
+        throw new BadMethodCallException('Unable to change immutable map');
     }
 
     /** {@inheritdoc} */
     public function offsetUnset($offset): void
     {
-        throw new \BadMethodCallException('Unable to change immutable map');
+        throw new BadMethodCallException('Unable to change immutable map');
     }
 }

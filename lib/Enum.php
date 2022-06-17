@@ -47,10 +47,9 @@ use Granule\Util\Exception\InvalidEnumValueException;
  */
 abstract class Enum
 {
-    /** @var string */
-    private $value;
-    /** @var Enum[][]  */
-    private static $pool = [];
+    private string $value;
+    /** @var Enum[][] */
+    private static array $pool = [];
 
     final private function __construct(string $value, array $arguments = null)
     {
@@ -61,7 +60,7 @@ abstract class Enum
         }
     }
 
-    final private function __clone()
+    private function __clone()
     {
     }
 
@@ -76,13 +75,10 @@ abstract class Enum
                && $this->getValue() === $another->getValue();
     }
 
-    /**
-     * @return static
-     */
-    final public static function __callStatic(string $name, $_)
+    final public static function __callStatic(string $name, array $arguments): static
     {
-        $arguments = self::getConstantArguments($name);
-        if (!$arguments) {
+        $arguments_ = self::getConstantArguments($name);
+        if (!$arguments_) {
             throw new InvalidEnumValueException(
                 sprintf('Type %s doesn\'t contain value %s', static::class, $name)
             );
@@ -91,16 +87,13 @@ abstract class Enum
             self::$pool[static::class] = [];
         }
         if (!array_key_exists($name, self::$pool[static::class])) {
-            self::$pool[static::class][$name] = new static($name, $arguments);
+            self::$pool[static::class][$name] = new static($name, $arguments_);
         }
 
         return self::$pool[static::class][$name];
     }
 
-    /**
-     * @return static
-     */
-    public static function fromValue(string $value)
+    public static function fromValue(string $value): static
     {
         return self::__callStatic($value, []);
     }
