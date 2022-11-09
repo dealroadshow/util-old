@@ -35,7 +35,7 @@ class Month extends Enum
 {
     private const
         January = 1,
-        February = 2;
+    February = 2;
 
     /** @var int */
     private $position;
