@@ -69,8 +69,12 @@ abstract class Enum
         return $this->value;
     }
 
-    final public function equalTo(Enum $another): bool
+    final public function equalTo(?Enum $another = null): bool
     {
+        if ($another === null) {
+            return false;
+        }
+
         return static::class === get_class($another)
                && $this->getValue() === $another->getValue();
     }
