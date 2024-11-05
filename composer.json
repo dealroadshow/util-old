@@ -11,15 +11,22 @@
   ],
   "type": "library",
   "require": {
-    "php": ">=8.0.2"
+    "php": ">=8.2"
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:dealroadshow/phpcs-finsight-ruleset"
+    }
+  ],
   "require-dev": {
+    "dealroadshow/phpcs-finsight-ruleset": "^2.2",
     "phpunit/phpunit": "^9",
-    "vimeo/psalm": "^4.23",
+    "vimeo/psalm": "^5.26.1",
     "orklah/psalm-insane-comparison": "^2.0",
-    "marartner/psalm-no-empty": "^1.1",
+    "marartner/psalm-no-empty": "^2.0",
     "orklah/psalm-strict-equality": "^2.0",
-    "friendsofphp/php-cs-fixer": "^3.8"
+    "friendsofphp/php-cs-fixer": "^3.64"
   },
   "prefer-stable": true,
   "license": "MIT",

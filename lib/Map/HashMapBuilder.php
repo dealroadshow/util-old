@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * MIT License
  *
@@ -46,7 +48,7 @@ class HashMapBuilder
         callable $hashFunc,
         string $mapClass,
         ?string $mappingType,
-        ?string $keyType
+        ?string $keyType,
     ) {
         $this->hashFunc = $hashFunc;
         $this->mapClass = $mapClass;

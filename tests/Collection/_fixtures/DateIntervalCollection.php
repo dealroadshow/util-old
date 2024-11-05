@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Granule\Tests\Util\Collection\_fixtures;
 
 use Granule\Util\Collection\ArrayCollection;

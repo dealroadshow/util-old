@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * MIT License
  *
@@ -32,7 +34,6 @@ use Granule\Util\StrictTypedValue;
 use Iterator;
 use OutOfRangeException;
 use ReflectionClass;
-use ReflectionException;
 use TypeError;
 
 class ArrayCollection implements Collection

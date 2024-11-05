@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * MIT License
  *
@@ -37,7 +39,6 @@ use Granule\Util\StrictTypedKey;
 //--------------------------------
 use Granule\Util\TypeHelper;
 use ReflectionClass;
-use ReflectionException;
 use SplObjectStorage;
 
 class ObjectMap implements Map
@@ -200,7 +201,7 @@ class ObjectMap implements Map
     {
         return call_user_func([
             $collectionClass ?: Collection\ArrayCollection::class,
-            'fromArray'
+            'fromArray',
         ], $this->toArray());
     }
 

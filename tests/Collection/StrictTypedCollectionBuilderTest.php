@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Granule\Tests\Util\Collection;
 
 use DateInterval;
@@ -31,8 +33,8 @@ class StrictTypedCollectionBuilderTest extends TestCase
             [
                 'first' => new DateTimeImmutable('14-01-2014'),
                 'second' => new DateTimeImmutable('12-11-2011'),
-                'third' => new DateTimeImmutable('17-12-2017')
-            ]
+                'third' => new DateTimeImmutable('17-12-2017'),
+            ],
         ];
     }
 

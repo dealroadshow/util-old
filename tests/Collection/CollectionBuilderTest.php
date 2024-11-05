@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Granule\Tests\Util\Collection;
 
 use Granule\Util\Collection\ArrayCollection;
@@ -20,10 +22,10 @@ class CollectionBuilderTest extends TestCase
                 [
                     'first' => new \DateTime('14-01-2014'),
                     'second' => new \DateTime('12-11-2011'),
-                    'third' => new \DateTime('17-12-2017')
+                    'third' => new \DateTime('17-12-2017'),
                 ],
-                ArrayCollection::class
-            ]
+                ArrayCollection::class,
+            ],
         ];
     }
 
@@ -98,7 +100,7 @@ class CollectionBuilderTest extends TestCase
 
         $newElements = ArrayCollection::fromArray([
             new \DateTimeImmutable('10-12-2017'),
-            new \DateTimeImmutable('11-12-2017')
+            new \DateTimeImmutable('11-12-2017'),
         ]);
 
         $builder->addAll($newElements);

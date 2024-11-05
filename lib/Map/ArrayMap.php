@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * MIT License
  *
@@ -32,7 +34,6 @@ use Granule\Util\Map;
 use Granule\Util\StrictTypedKey;
 use Granule\Util\StrictTypedValue;
 use Granule\Util\TypeHelper;
-use ReflectionException;
 
 class ArrayMap implements Map
 {
@@ -153,7 +154,7 @@ class ArrayMap implements Map
     {
         return call_user_func([
             $collectionClass ?: ArrayCollection::class,
-            'fromArray'
+            'fromArray',
         ], $this->toArray());
     }
 

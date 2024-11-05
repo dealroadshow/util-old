@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * MIT License
  *
@@ -49,13 +51,13 @@ class MapTest extends TestCase
             [
                 $this->getTestMap(DateToDateMap::class, $objKeys, $values),
                 $objKeys,
-                $values
+                $values,
             ],
             [
                 $this->getTestMap(DateMap::class, $strKeys, $values),
                 $strKeys,
-                $values
-            ]
+                $values,
+            ],
         ];
     }
 
@@ -94,7 +96,7 @@ class MapTest extends TestCase
             [$map2, $strKeys[1], true],
             [$map2, 'not_exists', false],
             [$map1, $objKeys[2], true],
-            [$map1, new DateTimeImmutable('01-01-2012'), false]
+            [$map1, new DateTimeImmutable('01-01-2012'), false],
         ];
     }
 
@@ -124,7 +126,7 @@ class MapTest extends TestCase
             [$map2, $values[2], true],
             [$map2, new DateTimeImmutable('01-01-2012'), false],
             [$map1, $values[0], true],
-            [$map1, new DateTimeImmutable('01-01-2012'), false]
+            [$map1, new DateTimeImmutable('01-01-2012'), false],
         ];
     }
 
@@ -177,7 +179,7 @@ class MapTest extends TestCase
             [$map1, $map3, false],
             [$map3, $map2, true],
             [$map1, $map4, false],
-            [$map4, $map2, false]
+            [$map4, $map2, false],
         ];
     }
 
@@ -208,14 +210,14 @@ class MapTest extends TestCase
                 function (DateTimeImmutable $v, $k) use ($ts) {
                     return $v->getTimestamp() < $ts;
                 },
-                1
+                1,
             ];
             $filterData[] = [
                 $row[0],
                 function (DateTimeImmutable $v, $k) use ($ts) {
                     return $v->getTimestamp() > $ts;
                 },
-                2
+                2,
             ];
         }
 
@@ -262,7 +264,7 @@ class MapTest extends TestCase
         Map $map,
         \DateTimeInterface $value,
         $key,
-        bool $success
+        bool $success,
     ): void {
         $this->assertEquals($success, $value === $map->get($key));
     }
@@ -276,7 +278,7 @@ class MapTest extends TestCase
         return [
             [$map, $values[0], $keys[0], $defaultValue],
             [$map, $values[2], $keys[2], $defaultValue],
-            [$map, $defaultValue, $wrongKey, $defaultValue]
+            [$map, $defaultValue, $wrongKey, $defaultValue],
         ];
     }
 
@@ -294,7 +296,7 @@ class MapTest extends TestCase
         Map $map,
         \DateTimeInterface $value,
         \DateTimeInterface $key,
-        \DateTimeInterface $default
+        \DateTimeInterface $default,
     ): void {
         $this->assertEquals($value, $map->getOrDefault($key, $default));
     }
@@ -305,7 +307,7 @@ class MapTest extends TestCase
 
         return [
             [$map, count($keys) === 0],
-            [DateToDateMap::builder()->build(), true]
+            [DateToDateMap::builder()->build(), true],
         ];
     }
 
@@ -343,13 +345,13 @@ class MapTest extends TestCase
 
         $data[] = [
             DateToDateMap::builder()->build(),
-            0
+            0,
         ];
 
         foreach ($src as $row) {
             $data[] = [
                 $row[0], // Map
-                count($row[1])
+                count($row[1]),
             ];
         }
 
@@ -420,7 +422,7 @@ class MapTest extends TestCase
         return [
             new DateTimeImmutable('01-01-2001'),
             new DateTimeImmutable('02-01-2010'),
-            new DateTimeImmutable('03-01-2090')
+            new DateTimeImmutable('03-01-2090'),
         ];
     }
 
@@ -434,7 +436,7 @@ class MapTest extends TestCase
         return [
             new DateTimeImmutable('10-10-2010'),
             new DateTimeImmutable('11-10-2020'),
-            new DateTimeImmutable('12-10-2030')
+            new DateTimeImmutable('12-10-2030'),
         ];
     }
 }

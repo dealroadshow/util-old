@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * MIT License
  *
@@ -32,7 +34,7 @@ class MutableArrayTree extends ArrayTree
         if (is_null($offset)) {
             $this->data[] = $value;
         } else {
-            $offset = $this->extractKey($offset);
+            $offset = $this->extractKey((string) $offset);
             $data = &$this->data;
 
             foreach ($offset as $key) {
@@ -49,7 +51,7 @@ class MutableArrayTree extends ArrayTree
 
     public function offsetUnset($offset): void
     {
-        $offset = $this->extractKey($offset);
+        $offset = $this->extractKey((string) $offset);
         $this->find(
             $this->data,
             array_shift($offset),

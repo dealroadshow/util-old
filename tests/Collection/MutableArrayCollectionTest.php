@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * MIT License
  *
@@ -45,10 +47,10 @@ class MutableArrayCollectionTest extends TestCase
                 [
                     'first' => new \DateTime('14-01-2014'),
                     'second' => new \DateTime('12-11-2011'),
-                    'third' => new \DateTime('17-12-2017')
+                    'third' => new \DateTime('17-12-2017'),
                 ],
-                MutableDateCollection::class
-            ]
+                MutableDateCollection::class,
+            ],
         ];
     }
 
@@ -106,7 +108,7 @@ class MutableArrayCollectionTest extends TestCase
         $collection = $class::fromArray($fixture);
         $newElements = ArrayCollection::fromArray([
             new \DateTime('10-12-2017'),
-            new \DateTime('11-12-2017')
+            new \DateTime('11-12-2017'),
         ]);
 
         $this->assertEquals(3, $collection->count());
@@ -128,7 +130,7 @@ class MutableArrayCollectionTest extends TestCase
      */
     public function it_should_not_be_able_to_add_collection_with_wrong_element_type(
         array $fixture,
-        string $class
+        string $class,
     ): void {
         $this->expectExceptionMessage("Expected type DateTime provided: DateTimeImmutable");
         $this->expectException(\TypeError::class);
@@ -202,7 +204,7 @@ class MutableArrayCollectionTest extends TestCase
      */
     public function it_should_throw_exception_on_removing_element_having_wrong_type(
         array $fixture,
-        string $class
+        string $class,
     ): void {
         $this->expectExceptionMessage("Expected type DateTime provided: DateTimeImmutable");
         $this->expectException(\TypeError::class);
@@ -280,7 +282,7 @@ class MutableArrayCollectionTest extends TestCase
         $values = array_values($fixture);
         $toRetain = $class::fromArray([
             $values[1],
-            new \DateTime('12-12-2012')
+            new \DateTime('12-12-2012'),
         ]);
 
         $this->assertEquals(3, $collection->count());

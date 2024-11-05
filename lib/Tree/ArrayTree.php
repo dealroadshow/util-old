@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * MIT License
  *
@@ -134,7 +136,7 @@ class ArrayTree implements Tree
 
     public function offsetExists($offset): bool
     {
-        $offset = $this->extractKey($offset);
+        $offset = $this->extractKey((string) $offset);
 
         return $this->find($this->data, array_shift($offset), [], $offset, function () {
             return true;
@@ -145,7 +147,7 @@ class ArrayTree implements Tree
 
     public function offsetGet(mixed $offset): mixed
     {
-        $offset = $this->extractKey($offset);
+        $offset = $this->extractKey((string) $offset);
 
         return $this->find($this->data, array_shift($offset), $this->srcPath, $offset, function (&$value, array $path) {
             return is_array($value) ? static::fromArrayByReference($value, $path) : $value;
@@ -180,7 +182,7 @@ class ArrayTree implements Tree
         array $path,
         array $next,
         \Closure $onFound = null,
-        \Closure $onNotFound = null
+        \Closure $onNotFound = null,
     ) {
         $path[] = $key;
         if (array_key_exists($key, $data)) {

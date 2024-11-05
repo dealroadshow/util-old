@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * MIT License
  *
@@ -43,7 +45,7 @@ class ArrayTreeTest extends TestCase
         'var 1' => [
             ['var 1.0.0', 'var 1.0.1', 'var 1.0.2'],
             ['var 1.1.0', 'var 1.1.1', 'var 1.1.2'],
-            ['var 1.2.0', 'var 1.2.1']
+            ['var 1.2.0', 'var 1.2.1'],
         ],
         'var 2' => 2,
         'var 3' => false,
@@ -51,8 +53,8 @@ class ArrayTreeTest extends TestCase
         'var 5' => [
             'var 5.0' => 'value string 5.0',
             'var 5.1' => 5.1,
-            'var 5.2' => true
-        ]
+            'var 5.2' => true,
+        ],
     ];
     /** @var MutableArrayTree */
     private static $mutableTree;
@@ -75,7 +77,7 @@ class ArrayTreeTest extends TestCase
 
         $this->assertEquals('string var 0', $tree['var 0']);
         $this->assertEquals(2, $tree['var 2']);
-        $this->assertEquals(false, $tree['var 3']);
+        $this->assertFalse($tree['var 3']);
         $this->assertInstanceOf(ArrayTree::class, $tree['var 1']);
         $this->assertEquals('var 1.0.1', self::$data['var 1'][0][1]);
         $this->assertFalse(isset($tree['var 7']));
